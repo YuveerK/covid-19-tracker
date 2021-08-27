@@ -8,7 +8,7 @@ const TopBar = () => {
 
     const [countries, setCountries] = useState ([]);
     const [countryInfo, setCountryInfo]= useState ([]);
-    const [data, setData] = useState ({});
+    let [data, setData] = useState ({});
 
 //Calculates new daily cases
 const buildChartData = (data, casesType) => {
@@ -73,7 +73,8 @@ const buildChartData = (data, casesType) => {
         const countryCode = event.target.value;
         console.log(countryCode)
 
-        const url = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/all' : `https://disease.sh/v3/covid-19/countries/${countryCode}?strict=true`
+        const url = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/all' : `https://disease.sh/v3/covid-19/countries/${countryCode}`
+        
 
         await fetch (url)
         .then((response) => response.json())
@@ -82,7 +83,8 @@ const buildChartData = (data, casesType) => {
           
         })
 
-        const url2 = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/historical/all?lastdays=120' : `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=120`
+        try {
+            const url2 = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/historical/all?lastdays=120' : `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=120`
 
         await fetch(url2)
               .then((response) => {
@@ -93,9 +95,13 @@ const buildChartData = (data, casesType) => {
               });
               console.log(data)
 
-              if(data.length == 0) {
-                  alert('nothing found')
-              }
+              
+        } catch (error) {
+            
+            alert('No hisorical chart data found, graph is populated with last dataset')
+
+        }
+        
     }
 
   
@@ -117,6 +123,33 @@ const buildChartData = (data, casesType) => {
                 </Select>
             </TitleContainer>
             <CardContainer>
+                <Card>
+                    <Text>
+                        COVID-19 Tests Conducted - Today
+                    </Text>
+
+
+                    
+                     <Number>
+                        <NumberFormat thousandsGroupStyle="thousand"
+                                value={countryInfo.tests}
+                                prefix=""
+                                decimalSeparator="."
+                                displayType="text"
+                                type="text"
+                                thousandSeparator={true}
+                                allowNegative={true}
+                                fixedDecimalScale={false}
+                                allowEmptyFormatting={false}
+                                suffix="" 
+                                
+                        />
+
+                         
+                     </Number>
+
+                     
+                </Card>
                 <Card>
                     <Text>
                         COVID-19 Cases - Today

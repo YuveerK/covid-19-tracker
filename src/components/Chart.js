@@ -14,13 +14,27 @@ const Chart = ({ data, casesType }) => {
                         data={{
                             datasets: [
                             {
-                                label: 'Covid-19 Cases',
+                                label: 'Total Covid-19 Cases',
                                 backgroundColor: "rgba(204, 16, 52, 0.5)",
                                 borderColor: "#CC1034",
                                 data: data,
                             },
                             ],
+
+                            options: {
+                                maintainAspectRatio: false,
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    },
+                                    x: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
                         }}
+                        
                         
                     />
                 </GraphContainer>

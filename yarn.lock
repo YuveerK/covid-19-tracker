@@ -9197,7 +9197,7 @@ react-number-format@^4.7.3:
 
 react-numeral@^1.1.1:
   version "1.1.1"
-  resolved "https://registry.npmjs.org/react-numeral/-/react-numeral-1.1.1.tgz"
+  resolved "https://registry.yarnpkg.com/react-numeral/-/react-numeral-1.1.1.tgz#063335b4de6b74917a3cbbfdf08e8fb52d3d3a69"
   integrity sha512-0s8F+kBaRiMOVgEtz45xvYgHtk2ff4FgJ4BNuXZUXRsfPGNNfrq+8zx/2NEc6jQHh2nXiz8ojng17/jNO3S38g==
   dependencies:
     "@babel/core" "^7.14.3"

@@ -1,39 +1,50 @@
 import styled from "styled-components";
-import {  Line } from 'react-chartjs-2'
+import {  Line, Bar } from 'react-chartjs-2'
 
 const Chart = ({ data, casesType }) => {
  
-
+    const state = {
+        
+        datasets: [
+          {
+            label: 'Covid-19 Total Cases',
+            fill: false,
+            lineTension: 0.5,
+            backgroundColor: 'rgba(0,0,0,1)',
+            borderColor: 'rgba(0,0,0,1)',
+            borderWidth: 1,
+            data: data
+          }
+        ]
+      }
 
     return (
       
 
             <Container>
                 <GraphContainer>
-                    <Line
-                        data={{
-                            datasets: [
-                            {
-                                label: 'Total Covid-19 Cases',
-                                backgroundColor: "rgba(204, 16, 52, 0.5)",
-                                borderColor: "#CC1034",
-                                data: data,
-                            },
-                            ],
-
-                            options: {
-                                maintainAspectRatio: false,
-                                responsive: true,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    },
-                                    x: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        }}
+                    <Line height = "100%"
+                       data={state}
+                       options={{
+                         title:{
+                           display:true,
+                           text:'Average Rainfall per month',
+                           fontSize:20
+                         },
+                         legend:{
+                           display:true,
+                           position:'right'
+                         },
+                         scale:{
+                           y: {
+                            beginAtZero: true,
+                           },
+                           x: {
+                            beginAtZero: true,
+                           }
+                         },
+                         maintainAspectRatio : false
+                       }}
                         
                         
                     />
@@ -56,8 +67,8 @@ export const Container = styled.div `
 
 export const GraphContainer = styled.div `
     position: relative;
-    width: 70%;
-    height: 300px;
+    width: 100%;
+    height: 400px;
 
 `;
 export default Chart

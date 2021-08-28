@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import Numeral from "react-numeral";
 import React, { useState, useEffect } from 'react'
 
 
@@ -19,7 +19,12 @@ const Table = ({tableData}) => {
                     tableData.map((item) => (
                         <Tr key={item.countryInfo.id}>
                             <Td>{item.country}</Td>
-                            <Td>{item.cases}</Td>                                
+                            <Td>
+                                <Numeral
+                                    value={item.cases}
+                                    format={"0,0"}
+                                />    
+                            </Td>                                
                         </Tr>
                     ))
                 }

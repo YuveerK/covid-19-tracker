@@ -11,21 +11,18 @@ const TopBar = () => {
     const [countryInfo, setCountryInfo]= useState ([]);
     let [data, setData] = useState ({});
     const [vaccineNum, setVaccineNum] = useState({})
-//Calculates new daily cases
+    const [tableData, setTableData] = useState ([]);
 
 
-const [tableData, setTableData] = useState ([]);
 
+//Get's table data    
 useEffect (() => {
     const getTableData = async () => {
         fetch("https://disease.sh/v3/covid-19/countries?sort=cases")
         .then((response) => response.json())
         .then((data) => {
             setTableData(data)
-            
         })
-
-
     }
     getTableData()
 }, [])
@@ -49,19 +46,16 @@ useEffect (() => {
               })
               .then((data) => {
                 setData(data.cases);
+                console.log(data)
               });
 
+              //Fetches vaccine data
               await fetch ("https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=1&fullData=true")
               .then ((response) => response.json())
               .then ((data) => {
                 setVaccineNum(data[0].total)
-                
             });
-
-            
     }, [])
-    
-
 
     //populates dropdown list
     useEffect (() => {
@@ -74,9 +68,7 @@ useEffect (() => {
                         name: country.country
                     }
                 ))
-                
                 setCountries(countries)
-                
             })
         }
         getCountriesData();
@@ -86,17 +78,15 @@ useEffect (() => {
 //Runs api call based on value selected from list
     const onCountryChange = async (event) => {
         const countryCode = event.target.value;
-
         const url = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/all' : `https://disease.sh/v3/covid-19/countries/${countryCode}`
         
-
         await fetch (url)
         .then((response) => response.json())
         .then(data => {
             setCountryInfo(data)
-          
         })
 
+        //Runs call to fetch chart data when option is selected
         try {
             const url2 = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/historical/all?lastdays=120' : `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=120`
 
@@ -107,32 +97,21 @@ useEffect (() => {
               .then((data) => {
                 countryCode === 'worldwide' ? setData (data.cases) : setData(data.timeline.cases)
               });
-
-              
         } catch (error) {
-            
             alert('No hisorical chart data found, graph is populated with last dataset')
-
         }
   
        
+        //Get's vaccine data when country is selected
         try {
             const url3 = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=1&fullData=true' : `https://disease.sh/v3/covid-19/vaccine/coverage/countries/${countryCode}?lastdays=1&fullData=true`
 
         await fetch(url3)
             .then((response) => response.json())
             .then ((data) => {
-
                 countryCode === 'worldwide' ? setVaccineNum(data[0].total) : setVaccineNum(data.timeline[0].total)
-               
-                
             })
-
-              
-        } catch (error) {
-            
-            
-        
+        } catch (error) { 
 
         }
     }
@@ -163,10 +142,7 @@ useEffect (() => {
                             <Card>
                                 <Text>
                                     Tests Conducted - as of Today
-                                </Text>
-
-
-                                
+                                </Text>    
                                 <Number>
                                     <NumberFormat thousandsGroupStyle="thousand"
                                             value={countryInfo.tests}
@@ -178,22 +154,15 @@ useEffect (() => {
                                             allowNegative={true}
                                             fixedDecimalScale={false}
                                             allowEmptyFormatting={false}
-                                            suffix="" 
-                                            
-                                    />
-
-                                    
-                                </Number>
-
-                                
+                                            suffix=""  
+                                    />                        
+                                </Number>                               
                             </Card>
+
                             <Card>
                                 <Text>
                                     COVID-19 Cases - Today
                                 </Text>
-
-
-                                
                                 <Number>
                                     <NumberFormat thousandsGroupStyle="thousand"
                                             value={countryInfo.todayCases}
@@ -205,29 +174,26 @@ useEffect (() => {
                                             allowNegative={true}
                                             fixedDecimalScale={false}
                                             allowEmptyFormatting={false}
-                                            suffix="" 
-                                            
-                                    />
-
-                                    
+                                            suffix=""   
+                                    />  
                                 </Number>
-
                                 <SubText>
-                                <NumberFormat thousandsGroupStyle="thousand"
-                                            value={countryInfo.cases}
-                                            prefix=""
-                                            decimalSeparator="."
-                                            displayType="text"
-                                            type="text"
-                                            thousandSeparator={true}
-                                            allowNegative={true}
-                                            fixedDecimalScale={false}
-                                            allowEmptyFormatting={false}
-                                            suffix="" 
-                                            
-                                    /> total
+                                    <NumberFormat thousandsGroupStyle="thousand"
+                                                value={countryInfo.cases}
+                                                prefix=""
+                                                decimalSeparator="."
+                                                displayType="text"
+                                                type="text"
+                                                thousandSeparator={true}
+                                                allowNegative={true}
+                                                fixedDecimalScale={false}
+                                                allowEmptyFormatting={false}
+                                                suffix="" 
+                                                
+                                        /> total
                                 </SubText>
                             </Card>
+
                             <Card>
                                 <Text>
                                     COVID-19 Deaths - Today
@@ -311,10 +277,10 @@ useEffect (() => {
                                 </Text>
 
                                 <Number>
-                                            <Numeral
-                                            value={vaccineNum}
-                                            format={"0,0"}
-                                        />
+                                    <Numeral
+                                        value={vaccineNum}
+                                        format={"0,0"}
+                                    />
                                 </Number>                       
                             </Card>                   
                         </CardContainer>
@@ -351,7 +317,7 @@ export const ChartContainer=styled.div`
     position:relative;
     width: 100%;
     margin:auto;
-    background-color: yellow;
+    
     height: 100%;
    
 `;

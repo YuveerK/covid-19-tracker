@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import Numeral from 'react-numeral';
-
+import CountUp from 'react-countup';
 import React from 'react'
 
-const Card = ({ heading, currentNumber, totalNumber, subHeading }) => {
+const Card = ({ icon, heading, currentNumber, totalNumber, subHeading }) => {
     return (
         <Cards>
+            <Icon className={icon}></Icon>
             <Text>
                 {heading}
             </Text>
@@ -40,6 +41,11 @@ export const Cards=styled.div`
 
 `;
 
+export const Icon=styled.i`
+    font-size: 3rem;  
+    color:green;  
+
+`;
 export const Text=styled.p`
     text-align: center;
     

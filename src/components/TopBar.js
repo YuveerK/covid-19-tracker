@@ -428,7 +428,6 @@ export const Select=styled.select`
     display: flex;
     align-items: center;
     justify-content: space-around;
-    width: 100%;
     height: 30px;
     
 
@@ -437,7 +436,7 @@ export const Option=styled.option`
     display: flex;
     align-items: center;
     justify-content: space-around;
-        width: 100%;
+    width: 100%;
 
 `;
 

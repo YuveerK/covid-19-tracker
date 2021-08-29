@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {  Line, Bar } from 'react-chartjs-2'
-
+import numeral from "numeral";
 const Chart = ({ data, casesType }) => {
  
     const state = {
@@ -18,36 +18,66 @@ const Chart = ({ data, casesType }) => {
         ]
       }
 
+      const options = {
+        legend: {
+          display: false,
+        },
+        elements: {
+          point: {
+            radius: 2,
+          },
+        },
+        maintainAspectRatio: false,
+        tooltips: {
+          mode: "index",
+          intersect: false,
+          callbacks: {
+            label: function (tooltipItem, data) {
+              return numeral(tooltipItem.value).format("+0,0");
+            },
+          },
+        },
+        scales: {
+          xAxes: [
+            {
+              type: "time",
+              time: {
+                format: "MM/DD/YY",
+                tooltipFormat: "ll",
+              },
+            },
+          ],
+          yAxes: [
+            {
+              gridLines: {
+                display: false,
+              },
+              ticks: {
+                // Include a dollar sign in the ticks
+                callback: function (value, index, values) {
+                  return numeral(value).format("0a");
+                },
+              },
+            },
+          ],
+        },
+      };
+
     return (
       
 
             <Container>
                 <GraphContainer>
+
+                  {data?.length > 0 && (
                     <Line height = "100%"
                        data={state}
-                       options={{
-                         title:{
-                           display:true,
-                           text:'Average Rainfall per month',
-                           fontSize:20
-                         },
-                         legend:{
-                           display:true,
-                           position:'right'
-                         },
-                         scale:{
-                           y: {
-                            beginAtZero: true,
-                           },
-                           x: {
-                            beginAtZero: true,
-                           }
-                         },
-                         maintainAspectRatio : false
-                       }}
+                        options={options}
+                       
                         
                         
                     />
+                  )}
                 </GraphContainer>
             </Container>
         
@@ -62,13 +92,12 @@ export const Container = styled.div `
     align-items: center;
     justify-content: center;
     margin-top: 100px;
-
 `;
 
 export const GraphContainer = styled.div `
     position: relative;
     width: 100%;
-    height: 400px;
-
+    height: 900px;
 `;
+
 export default Chart

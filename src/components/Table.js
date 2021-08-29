@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Numeral from "react-numeral";
-import React, { useState, useEffect } from 'react'
 
 
 const Table = ({tableData}) => {

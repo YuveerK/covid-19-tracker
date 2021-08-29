@@ -6,7 +6,6 @@ import Chart from "./Chart";
 import Numeral from 'react-numeral';
 import Table from "../components/Table"
 const TopBar = () => {
-    let number = 0;
     const [countries, setCountries] = useState ([]);
     const [countryInfo, setCountryInfo]= useState ([]);
     let [data, setData] = useState ({});
@@ -30,32 +29,40 @@ useEffect (() => {
 
 
 //Loads initial world data
-    useEffect(async ()=> {
+    useEffect( ()=> {
 
-        //fetches initial global data
-            await fetch ("https://disease.sh/v3/covid-19/all")
-            .then ((response) => response.json())
-            .then ((data) => {
-                setCountryInfo(data)
-            });   
-            
-            //fetches chart data
-            await fetch(`https://disease.sh/v3/covid-19/historical/all?lastdays=120`)
-              .then((response) => {
-                return response.json();
-              })
-              .then((data) => {
-                setData(data.cases);
-                console.log(data)
-              });
+        async function fetchData() {
+            //fetches initial global data
+                await fetch ("https://disease.sh/v3/covid-19/all")
+                .then ((response) => response.json())
+                .then ((data) => {
+                    setCountryInfo(data)
+                });   
+                
+                //fetches chart data
+                await fetch(`https://disease.sh/v3/covid-19/historical/all?lastdays=90`)
+                  .then((response) => {
+                    return response.json();
+                  })
+                  .then((data) => {
+                    let chartData = buildChartData(data);
+                    setData(chartData);
+                  });
+    
+                  //Fetches vaccine data
+                  await fetch ("https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=1&fullData=true")
+                  .then ((response) => response.json())
+                  .then ((data) => {
+                    setVaccineNum(data[0].total)
+                });
+        }
 
-              //Fetches vaccine data
-              await fetch ("https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=1&fullData=true")
-              .then ((response) => response.json())
-              .then ((data) => {
-                setVaccineNum(data[0].total)
-            });
+        fetchData()
     }, [])
+
+
+
+
 
     //populates dropdown list
     useEffect (() => {
@@ -74,7 +81,24 @@ useEffect (() => {
         getCountriesData();
     }, [])
 
+    const buildChartData = (data) => {
+        let chartData = [];
+        let lastDataPoint;
+        for (let date in data.cases) {
+          if (lastDataPoint) {
+            let newDataPoint = {
+              x: date,
+              y: data['cases'][date] - lastDataPoint,
+            };
+            chartData.push(newDataPoint);
+          }
+          lastDataPoint = data['cases'][date];
+        }
+        return chartData;
+      };
 
+      
+      
 //Runs api call based on value selected from list
     const onCountryChange = async (event) => {
         const countryCode = event.target.value;
@@ -88,15 +112,17 @@ useEffect (() => {
 
         //Runs call to fetch chart data when option is selected
         try {
-            const url2 = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/historical/all?lastdays=120' : `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=120`
+            const url2 = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/historical/all?lastdays=90' : `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=90`
 
         await fetch(url2)
               .then((response) => {
                 return response.json();
               })
-              .then((data) => {
-                countryCode === 'worldwide' ? setData (data.cases) : setData(data.timeline.cases)
+              .then((data) => {    
+                let chartData = buildChartData(data.timeline)
+                setData(chartData);                
               });
+              
         } catch (error) {
             alert('No hisorical chart data found, graph is populated with last dataset')
         }
@@ -133,7 +159,7 @@ useEffect (() => {
                             <Option value={country.name}>{country.name}</Option>
                         ))}
                     </Select>
-                </TitleContainer>
+            </TitleContainer>
 
                 <ContentContainer>
                     <Left>
@@ -325,6 +351,7 @@ export const ContentContainer=styled.div`
     width: 100%;
     height: fit-content;
     display: flex;
+    margin-top: 150px;
 
     @media (max-width: 900px) {
         flex-direction: column;
@@ -332,11 +359,15 @@ export const ContentContainer=styled.div`
    
 `;
 export const Left=styled.div`
-    flex:0.7;
+    flex:0.8;
     height: 100%;
+    box-shadow: 0px 0px 11px 3px #9d9d9d;   
+    margin: 10px;
+    border-radius: 10px;
+
 `;
 export const Right=styled.div`
-    flex: 0.3;
+    flex: 0.2;
     max-height: 600px;
     overflow-y: scroll;
     @media (max-width: 900px) {
@@ -351,6 +382,10 @@ export const TitleContainer=styled.div`
     justify-content: space-evenly;
     margin-bottom: 50px;
     padding: 20px;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    background-color: white;
 
     @media (max-width: 900px) {
         flex-direction: column;
@@ -378,7 +413,7 @@ export const Image=styled.img`
 `;
 export const Container=styled.div`
     
-    
+    margin-top: ;
     width: 100%;
     height: fit-content;
     

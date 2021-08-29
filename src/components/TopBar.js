@@ -111,24 +111,48 @@ useEffect (() => {
         .then((response) => response.json())
         .then(data => {
             setCountryInfo(data)
-            setImage(data.countryInfo.flag)
+            // setImage(data.countryInfo.flag)
         })
-        //Runs call to fetch chart data when option is selected
-        try {
-            const url2 = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/historical/all?lastdays=90' : `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=90`
+        
 
-        await fetch(url2)
-              .then((response) => {
-                return response.json();
-              })
-              .then((data) => {    
-                let chartData = buildChartData(data.timeline)
-                setData(chartData);                
-              });
-              
-        } catch (error) {
-            alert('No hisorical chart data found, graph is populated with last dataset')
+        if (countryCode === 'worldwide') {
+            //Runs call to fetch chart data when option is selected
+            try {
+                const url2_2 =  `https://disease.sh/v3/covid-19/historical/all?lastdays=90`
+    
+            await fetch(url2_2)
+                  .then((response) => {
+                    return response.json();
+                  })
+                  .then((data) => {    
+                    let chartData = buildChartData(data)
+                    setData(chartData);                
+                  });
+                  
+            } catch (error) {
+                alert('No hisorical chart data found, graph is populated with last dataset')
+            }
+
+        } else {
+
+            //Runs call to fetch chart data when option is selected
+            try {
+                const url2 =  `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=90`
+    
+            await fetch(url2)
+                  .then((response) => {
+                    return response.json();
+                  })
+                  .then((data) => {    
+                    let chartData = buildChartData(data.timeline)
+                    setData(chartData);                
+                  });
+                  
+            } catch (error) {
+                alert('No hisorical chart data found, graph is populated with last dataset')
+            }
         }
+
   
        
         //Get's vaccine data when country is selected
@@ -172,7 +196,7 @@ useEffect (() => {
                             <Heading>
                                 {ctyCode}
                             </Heading>
-                            <ImageHeading src={image} />
+                            {/* <ImageHeading src={image} /> */}
                         </HeadingContainer>
                         
                         <CardContainer>

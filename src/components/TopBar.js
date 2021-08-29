@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import NumberFormat from 'react-number-format';
 import logo from "../assets/logo.svg";
 import React, {useState, useEffect} from 'react'
 import Chart from "./Chart";
 import Table from "../components/Table"
 import Cards from "./Card"
 import global from "../assets/globe.png"
-import CountUp from "react-countup";
 
 
 const TopBar = () => {

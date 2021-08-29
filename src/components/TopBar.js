@@ -428,7 +428,7 @@ export const Select=styled.select`
     display: flex;
     align-items: center;
     justify-content: space-around;
-    height: 30px;
+    height: 40px;
     
 
 `;

@@ -3,15 +3,18 @@ import NumberFormat from 'react-number-format';
 import logo from "../assets/logo.svg";
 import React, {useState, useEffect} from 'react'
 import Chart from "./Chart";
-import Numeral from 'react-numeral';
 import Table from "../components/Table"
+import Cards from "./Card"
+
 const TopBar = () => {
     const [countries, setCountries] = useState ([]);
     const [countryInfo, setCountryInfo]= useState ([]);
     let [data, setData] = useState ({});
     const [vaccineNum, setVaccineNum] = useState({})
     const [tableData, setTableData] = useState ([]);
-
+    const [ctyCode, setCtyCode] = useState ("World Wide")
+    const [image, setImage] = useState ("")
+    let countryCode= ``;
 
 
 //Get's table data    
@@ -101,15 +104,15 @@ useEffect (() => {
       
 //Runs api call based on value selected from list
     const onCountryChange = async (event) => {
-        const countryCode = event.target.value;
+         countryCode = event.target.value;
         const url = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/all' : `https://disease.sh/v3/covid-19/countries/${countryCode}`
         
         await fetch (url)
         .then((response) => response.json())
         .then(data => {
             setCountryInfo(data)
+            setImage(data.countryInfo.flag)
         })
-
         //Runs call to fetch chart data when option is selected
         try {
             const url2 = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/historical/all?lastdays=90' : `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=90`
@@ -140,6 +143,10 @@ useEffect (() => {
         } catch (error) { 
 
         }
+
+        setCtyCode(countryCode)
+        console.log(image)
+
     }
 
 
@@ -159,156 +166,48 @@ useEffect (() => {
                             <Option value={country.name}>{country.name}</Option>
                         ))}
                     </Select>
-            </TitleContainer>
-
-                <ContentContainer>
+            </TitleContainer>            
                     <Left>
+                        <HeadingContainer>
+                            <Heading>
+                                {ctyCode}
+                            </Heading>
+                            <ImageHeading src={image} />
+                        </HeadingContainer>
                         
                         <CardContainer>
-                            <Card>
-                                <Text>
-                                    Tests Conducted - as of Today
-                                </Text>    
-                                <Number>
-                                    <NumberFormat thousandsGroupStyle="thousand"
-                                            value={countryInfo.tests}
-                                            prefix=""
-                                            decimalSeparator="."
-                                            displayType="text"
-                                            type="text"
-                                            thousandSeparator={true}
-                                            allowNegative={true}
-                                            fixedDecimalScale={false}
-                                            allowEmptyFormatting={false}
-                                            suffix=""  
-                                    />                        
-                                </Number>                               
-                            </Card>
-
-                            <Card>
-                                <Text>
-                                    COVID-19 Cases - Today
-                                </Text>
-                                <Number>
-                                    <NumberFormat thousandsGroupStyle="thousand"
-                                            value={countryInfo.todayCases}
-                                            prefix=""
-                                            decimalSeparator="."
-                                            displayType="text"
-                                            type="text"
-                                            thousandSeparator={true}
-                                            allowNegative={true}
-                                            fixedDecimalScale={false}
-                                            allowEmptyFormatting={false}
-                                            suffix=""   
-                                    />  
-                                </Number>
-                                <SubText>
-                                    <NumberFormat thousandsGroupStyle="thousand"
-                                                value={countryInfo.cases}
-                                                prefix=""
-                                                decimalSeparator="."
-                                                displayType="text"
-                                                type="text"
-                                                thousandSeparator={true}
-                                                allowNegative={true}
-                                                fixedDecimalScale={false}
-                                                allowEmptyFormatting={false}
-                                                suffix="" 
-                                                
-                                        /> total
-                                </SubText>
-                            </Card>
-
-                            <Card>
-                                <Text>
-                                    COVID-19 Deaths - Today
-                                </Text>
-
-                                <Number>
-                                <NumberFormat thousandsGroupStyle="thousand"
-                                            value={countryInfo.todayDeaths}
-                                            prefix=""
-                                            decimalSeparator="."
-                                            displayType="text"
-                                            type="text"
-                                            thousandSeparator={true}
-                                            allowNegative={true}
-                                            fixedDecimalScale={false}
-                                            allowEmptyFormatting={false}
-                                            suffix="" 
-                                            
-                                    />
-                                </Number>
-
-                                <SubText>
-                                <NumberFormat thousandsGroupStyle="thousand"
-                                            value={countryInfo.deaths}
-                                            prefix=""
-                                            decimalSeparator="."
-                                            displayType="text"
-                                            type="text"
-                                            thousandSeparator={true}
-                                            allowNegative={true}
-                                            fixedDecimalScale={false}
-                                            allowEmptyFormatting={false}
-                                            suffix="" 
-                                            
-                                    /> Total
-
-                                    
-                                </SubText>
-                            </Card>
-                            <Card>
-                                <Text>
-                                    COVID-19 Recovered Cases - Today
-                                </Text>
-
-                                <Number>
-                                <NumberFormat thousandsGroupStyle="thousand"
-                                            value={countryInfo.todayRecovered}
-                                            prefix=""
-                                            decimalSeparator="."
-                                            displayType="text"
-                                            type="text"
-                                            thousandSeparator={true}
-                                            allowNegative={true}
-                                            fixedDecimalScale={false}
-                                            allowEmptyFormatting={false}
-                                            suffix="" 
-                                            
-                                    />
-                                </Number>
-
-                                <SubText>
-                                <NumberFormat thousandsGroupStyle="thousand"
-                                            value={countryInfo.recovered}
-                                            prefix=""
-                                            decimalSeparator="."
-                                            displayType="text"
-                                            type="text"
-                                            thousandSeparator={true}
-                                            allowNegative={true}
-                                            fixedDecimalScale={false}
-                                            allowEmptyFormatting={false}
-                                            suffix="" 
-                                            
-                                    /> total
-                                </SubText>
-                            </Card>
+                            <Cards 
+                                heading="Tests Conducted - As of Today"
+                                currentNumber = {countryInfo.tests}
+                                subHeading="" 
+                            />
                             
-                            <Card>
-                                <Text>
-                                    Vaccines administered
-                                </Text>
-
-                                <Number>
-                                    <Numeral
-                                        value={vaccineNum}
-                                        format={"0,0"}
-                                    />
-                                </Number>                       
-                            </Card>                   
+                            <Cards 
+                                heading="COVID-19 Cases - As Of Today"
+                                currentNumber = {countryInfo.todayCases ? countryInfo.todayCases : "0" } 
+                                totalNumber ={countryInfo.cases}
+                                subHeading="total"                                
+                            />
+                            
+                            <Cards 
+                                heading="COVID-19 Deaths - Today"
+                                currentNumber = {countryInfo.todayDeaths ? countryInfo.todayDeaths : "0"}
+                                totalNumber ={countryInfo.deaths}
+                                subHeading="total"                               
+                            />        
+                            
+                            <Cards 
+                                heading="COVID-19 Recovered Cases - Today"
+                                currentNumber = {countryInfo.todayRecovered ? countryInfo.todayRecovered : "0"}
+                                totalNumber ={countryInfo.recovered}
+                                subHeading="total"                               
+                            />        
+                            
+                            <Cards 
+                                heading="Vaccines Administered"
+                                currentNumber = {vaccineNum}                               
+                            />        
+                                               
                         </CardContainer>
 
                         <ChartContainer>
@@ -317,12 +216,12 @@ useEffect (() => {
 
                     </Left>
 
+                
                     <Right>
                         <TableContainer>
                             <Table tableData ={tableData} />
                         </TableContainer>
                     </Right>
-                </ContentContainer>
         </Container>
         
    
@@ -330,6 +229,18 @@ useEffect (() => {
 }
 
 
+export const HeadingContainer=styled.div`
+    
+   
+`;
+export const Heading=styled.h1`
+    
+   
+`;
+export const ImageHeading=styled.img`
+    
+   
+`;
 export const TableContainer=styled.div`
     width: 100%;
     height: 400px;
@@ -341,28 +252,18 @@ export const TableContainer=styled.div`
 
 export const ChartContainer=styled.div`
     position:relative;
-    width: 100%;
+    width: 80%;
     margin:auto;
     
     height: 100%;
    
 `;
-export const ContentContainer=styled.div`
-    width: 100%;
-    height: fit-content;
-    display: flex;
-    margin-top: 150px;
 
-    @media (max-width: 900px) {
-        flex-direction: column;
-    }
-   
-`;
 export const Left=styled.div`
-    flex:0.8;
+    width: 100%;
     height: 100%;
-    box-shadow: 0px 0px 11px 3px #9d9d9d;   
-    margin: 10px;
+       
+    margin-top: 160px;
     border-radius: 10px;
 
 `;
@@ -413,7 +314,6 @@ export const Image=styled.img`
 `;
 export const Container=styled.div`
     
-    margin-top: ;
     width: 100%;
     height: fit-content;
     
@@ -444,37 +344,8 @@ export const Option=styled.option`
 
 `;
 
-export const Card=styled.div`
-    width: 250px;
-    height: 250px;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-direction: column;
-    box-shadow: 0px 0px 11px 3px #9d9d9d;   
-    border-radius: 10px;
-    padding: 20px;
-    margin:20px;
-    
 
-`;
 
-export const Text=styled.p`
-    text-align: center;
-    
 
-`;
-
-export const Number=styled.h1`
-    
-    
-
-`;
-
-export const SubText=styled.p`
-    
-    
-
-`;
 
 export default TopBar

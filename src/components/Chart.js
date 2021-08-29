@@ -7,7 +7,7 @@ const Chart = ({ data, casesType }) => {
         
         datasets: [
           {
-            label: 'Covid-19 Total Cases',
+            label: 'Daily New: Covid-19 Cases',
             fill: false,
             lineTension: 0.5,
             backgroundColor: 'rgba(0,0,0,1)',
@@ -97,7 +97,7 @@ export const Container = styled.div `
 export const GraphContainer = styled.div `
     position: relative;
     width: 100%;
-    height: 900px;
+    height: 500px;
 `;
 
 export default Chart

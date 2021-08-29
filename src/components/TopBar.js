@@ -188,7 +188,7 @@ useEffect (() => {
                         <Image src={logo} />
                     <Title>
                         
-                        COVID-19 Tracker
+                        COVID-19 Trackerererererer
                     </Title>
 
                     <Select onChange={onCountryChange}>

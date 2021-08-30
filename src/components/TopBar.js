@@ -10,11 +10,13 @@ import global from "../assets/globe.png"
 const TopBar = () => {
     const [countries, setCountries] = useState ([]);
     const [countryInfo, setCountryInfo]= useState ([]);
+    const [countryDetailedInfo, setCountryDetailedInfo]= useState ([]);
     let [data, setData] = useState ({});
     const [vaccineNum, setVaccineNum] = useState({})
     const [tableData, setTableData] = useState ([]);
     const [ctyCode, setCtyCode] = useState ("World Wide")
     const [image, setImage] = useState (`${global}`)
+    const [countryLanguages, setCountryLanguages] = useState ([])
     let countryCode= ``;
 
 
@@ -120,6 +122,19 @@ useEffect (() => {
                 setCountryInfo(data)
                 setImage(data.countryInfo.flag)
             })
+
+            const country_url = `https://restcountries.eu/rest/v2/name/${countryCode}?fullText=true`
+            await fetch (country_url)
+            .then ((response) => {
+                return response.json()
+            })
+            .then ((data) => {
+                let languages = data[0].languages
+                setCountryLanguages(languages)
+                console.log(countryLanguages)
+                console.log(data)
+                setCountryDetailedInfo (data)
+            })
         }
         
 
@@ -175,15 +190,16 @@ useEffect (() => {
         } catch (error) { 
 
         }
-
-        console.log(image)
-
     }
 
+
+    // console.log(countryLanguages)
+    console.log(countryDetailedInfo)
 
 
     return (
         <Container>
+             
             <TitleContainer>
                         <Image src={logo} />
                     <Title>
@@ -205,8 +221,20 @@ useEffect (() => {
                                     {ctyCode}
                                 </Heading>
                                 <ImageHeading src={image} />
+                            
                             </HeadingContentContainer>
+                            <h1>Population</h1>
+                                {countryDetailedInfo.map((country)=> (   
+                                    <h1>{country.population}</h1>
+                            ))}
+
+                            <h1>Borders</h1>
+                            {countryDetailedInfo.map ((country) => (
+                                <h1>{country.borders}</h1>
+                            ))}
                         </HeadingContainer>
+
+                        
                         
                         <CardContainer>
                             <Cards 
@@ -277,6 +305,7 @@ export const HeadingContainer=styled.div`
     justify-content: center;
     background-color: lightgrey;
     padding: 15px;
+    flex-direction: column;
 
    
 `;

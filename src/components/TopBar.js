@@ -355,7 +355,9 @@ export const HeadingContainer=styled.div`
     padding: 15px;
     flex-direction: column;
     box-shadow: 0px 0px 11px 3px #9d9d9d;      
-    
+    @media (max-width: 280px) {
+          
+      }
 `;
 
 export const CountryInfoContainer=styled.div`
@@ -409,6 +411,11 @@ export const HeadingContentContainer=styled.div`
         width: 100%;
         flex-direction: column;
     }
+
+    @media (max-width: 550px) {
+            width: 100%;
+            flex-direction: column;
+        }
 
 
     img {

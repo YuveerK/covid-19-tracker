@@ -11,16 +11,11 @@ const Card = ({ icon, heading, currentNumber, totalNumber, subHeading }) => {
                 {heading}
             </Text>
             <Number>
-                <Numeral
-                        value={currentNumber}
-                        format={"0,0"}
-                    /> 
+            <CountUp separator= ',' duration={1} end={currentNumber}/>
             </Number>
             <SubText>
-                <Numeral
-                        value={totalNumber}
-                        format={"0,0"}
-                    /> {subHeading}
+            <CountUp separator= ',' duration={1} end={totalNumber}/> total
+
             </SubText>
         </Cards>
     )

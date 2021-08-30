@@ -35,7 +35,8 @@ const Table = ({tableData}) => {
 }
 
 export const TableMain = styled.table `
-    width: 100%;
+    width: 80%;
+    margin:auto;
 
     @media (max-width: 900px) {
         margin-top: 80px;

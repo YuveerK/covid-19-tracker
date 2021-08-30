@@ -5,6 +5,7 @@ import Chart from "./Chart";
 import Table from "../components/Table"
 import Cards from "./Card"
 import global from "../assets/globe.png"
+import CountUp from "react-countup";
 
 
 const TopBar = () => {
@@ -17,6 +18,7 @@ const TopBar = () => {
     const [ctyCode, setCtyCode] = useState ("World Wide")
     const [image, setImage] = useState (`${global}`)
     const [countryLanguages, setCountryLanguages] = useState ([])
+    const [countryBorders, setCountryBorders] = useState ([])
     let countryCode= ``;
 
 
@@ -130,10 +132,11 @@ useEffect (() => {
             })
             .then ((data) => {
                 let languages = data[0].languages
+                let borders = data [0].borders
                 setCountryLanguages(languages)
-                console.log(countryLanguages)
-                console.log(data)
+                setCountryBorders(borders)
                 setCountryDetailedInfo (data)
+                console.log(data)
             })
         }
         
@@ -193,8 +196,6 @@ useEffect (() => {
     }
 
 
-    // console.log(countryLanguages)
-    console.log(countryDetailedInfo)
 
 
     return (
@@ -221,17 +222,64 @@ useEffect (() => {
                                     {ctyCode}
                                 </Heading>
                                 <ImageHeading src={image} />
+                                <CountryHeading>Population</CountryHeading>
+                                    {countryDetailedInfo.map((country)=> (   
+                                        <Heading>
+                                            <CountUp separator= ',' duration={3} end={country.population}/> 
+                                        </Heading>
+                                    ))}
+
+                            <CountryInfoContainer>
+                                <LeftCountryInfo>
+                                    <CountryHeading>Native Name</CountryHeading>
+                                    <Ul>
+                                        {countryDetailedInfo.map ((name) => (
+                                            <Li>{name.nativeName} </Li>
+                                        ))}
+
+                                    </Ul>
+                                    
+                                    <CountryHeading>Capital</CountryHeading>
+                                    <Ul>
+                                        {countryDetailedInfo.map ((name) => (
+                                            <Li>{name.capital} </Li>
+                                        ))}
+
+                                    </Ul>
+                                    
+                                    <CountryHeading>Region</CountryHeading>
+                                    <Ul>
+                                        {countryDetailedInfo.map ((name) => (
+                                            <Li>{name.capital} </Li>
+                                        ))}
+
+                                    </Ul>
+                                    
+                                   
+                                </LeftCountryInfo>
+
+                                <RightCountryInfo>
+                                    <CountryHeading>Languages</CountryHeading>
+                                    <Ul>
+                                        {countryLanguages.map ((language) => (
+                                            <Li>{language.name} </Li>          
+                                            ))}
+                                    </Ul>
+                                    
+                                    <CountryHeading>Demonym</CountryHeading>
+                                    <Ul>
+                                        {countryDetailedInfo.map ((demonym) => (
+                                            <Li>{demonym.demonym} </Li>          
+                                            ))}
+                                    </Ul>
+                                </RightCountryInfo>
+                            </CountryInfoContainer>
+                            
+
+                            
+
                             
                             </HeadingContentContainer>
-                            <h1>Population</h1>
-                                {countryDetailedInfo.map((country)=> (   
-                                    <h1>{country.population}</h1>
-                            ))}
-
-                            <h1>Borders</h1>
-                            {countryDetailedInfo.map ((country) => (
-                                <h1>{country.borders}</h1>
-                            ))}
                         </HeadingContainer>
 
                         
@@ -306,16 +354,62 @@ export const HeadingContainer=styled.div`
     background-color: lightgrey;
     padding: 15px;
     flex-direction: column;
+    box-shadow: 0px 0px 11px 3px #9d9d9d;      
+    
+`;
 
-   
+export const CountryInfoContainer=styled.div`
+      width: 100%;
+      height: 200px;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding: 20px;
+      overflow-y: scroll;
+
+      @media (max-width: 280px) {
+          flex-direction: column;
+      }
+`;
+
+export const LeftCountryInfo=styled.div`
+        
+         padding:0;
+         
+`;
+
+export const RightCountryInfo=styled.div`
+       
+`;
+export const CountryHeading=styled.h1`
+    font-weight: 300 bold;
+    font-size: 1rem;
+    margin-top: 20px;
+`;
+export const Ul=styled.ul`
+        
+`;
+export const Li=styled.li`
+    list-style: none;
+    padding-left: 20px;
 `;
 export const HeadingContentContainer=styled.div`
-    width: 600px;
+    width: 500px;
     height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    box-shadow: 0px 0px 11px 3px #9d9d9d;   
+    border-radius: 10px;
+    background-color: white;
+    padding: 20px;
+
+    @media (max-width: 280px) {
+        width: 100%;
+        flex-direction: column;
+    }
+
 
     img {
         width: 200px;
@@ -330,12 +424,13 @@ export const Heading=styled.h1`
    
 `;
 export const ImageHeading=styled.img`
-    
+    margin-top: 20px;
    
 `;
 export const TableContainer=styled.div`
     width: 100%;
     height: 400px;
+    margin-top: 100px;
     @media (max-width: 900px) {
         margin-top: 100px;
     }
@@ -390,7 +485,7 @@ export const TitleContainer=styled.div`
         
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 905px) {
         flex-direction: column;
     }
 `;

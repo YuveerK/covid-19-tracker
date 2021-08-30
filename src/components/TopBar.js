@@ -276,6 +276,29 @@ useEffect (() => {
 
                                     </Ul>
                                     
+                                    <CountryHeading>Currencies</CountryHeading>
+                                    <Ul>
+                                        {countryDetailedInfo.map ((currency, index) => (
+                                            <Li>
+                                                {currency.currencies[index].code}
+                                                
+                                             </Li>
+                                        ))}
+                                        {countryDetailedInfo.map ((currency, index) => (
+                                            <Li>
+                                                {currency.currencies[index].name}
+                                                
+                                             </Li>
+                                        ))}
+                                        {countryDetailedInfo.map ((currency, index) => (
+                                            <Li>
+                                                {currency.currencies[index].symbol}
+                                                
+                                             </Li>
+                                        ))}
+
+                                    </Ul>
+                                    
                                    
                                 </LeftCountryInfo>
 
@@ -296,6 +319,13 @@ useEffect (() => {
                                             <Li>{demonym.demonym} </Li>          
                                             ))}
                                     </Ul>
+                                    
+                                    <CountryHeading>Numeric Code</CountryHeading>
+                                    <Ul>
+                                        {countryDetailedInfo.map ((numericCode, index) => (
+                                            <Li>+{numericCode.callingCodes[index]} </Li>          
+                                            ))}
+                                    </Ul>
                                 </RightCountryInfo>
                             </CountryInfoContainer>
                             
@@ -309,44 +339,48 @@ useEffect (() => {
                         
                         
                         <CardContainer>
-                            <Cards 
-                                icon="fas fa-vials"
-                                heading="Tests Conducted - As of Today"
-                                currentNumber = {countryInfo.tests}
-                                subHeading="total" 
-                            />
                             
-                            <Cards 
-                                icon="fas fa-user-plus"
-                                heading="COVID-19 Cases - As Of Today"
-                                currentNumber = {countryInfo.todayCases ? countryInfo.todayCases : "0" } 
-                                totalNumber ={countryInfo.cases}
-                                subHeading="total"                                
-                            />
-                            
-                            <Cards 
-                                icon="fas fa-heartbeat"
-                                heading="COVID-19 Deaths - Today"
+                            <CardContentContainer>
+
+                                <Cards 
+                                    icon="fas fa-vials"
+                                    heading="Tests Conducted - As of Today"
+                                    currentNumber = {countryInfo.tests}
+                                    subHeading="total" 
+                                />
                                 
-                                currentNumber = {countryInfo.todayDeaths ? countryInfo.todayDeaths : "0"}
-                                totalNumber ={countryInfo.deaths}
-                                subHeading="total"                               
-                            />        
-                            
-                            <Cards 
-                                icon="fas fa-praying-hands"
-                                heading="COVID-19 Recovered Cases - Today"
-                                currentNumber = {countryInfo.todayRecovered ? countryInfo.todayRecovered : "0"}
-                                totalNumber ={countryInfo.recovered}
-                                subHeading="total"                               
-                            />        
-                            
-                            <Cards 
-                                icon="fas fa-syringe"
-                                heading="Vaccines Administered"
-                                currentNumber = {vaccineNum} 
-                                subHeading="total"                              
-                            />        
+                                <Cards 
+                                    icon="fas fa-user-plus"
+                                    heading="COVID-19 Cases - As Of Today"
+                                    currentNumber = {countryInfo.todayCases ? countryInfo.todayCases : "0" } 
+                                    totalNumber ={countryInfo.cases}
+                                    subHeading="total"                                
+                                />
+                                
+                                <Cards 
+                                    icon="fas fa-heartbeat"
+                                    heading="COVID-19 Deaths - Today"
+                                    
+                                    currentNumber = {countryInfo.todayDeaths ? countryInfo.todayDeaths : "0"}
+                                    totalNumber ={countryInfo.deaths}
+                                    subHeading="total"                               
+                                />        
+                                
+                                <Cards 
+                                    icon="fas fa-praying-hands"
+                                    heading="COVID-19 Recovered Cases - Today"
+                                    currentNumber = {countryInfo.todayRecovered ? countryInfo.todayRecovered : "0"}
+                                    totalNumber ={countryInfo.recovered}
+                                    subHeading="total"                               
+                                />        
+                                
+                                <Cards 
+                                    icon="fas fa-syringe"
+                                    heading="Vaccines Administered"
+                                    currentNumber = {vaccineNum} 
+                                    subHeading="total"                              
+                                />        
+                            </CardContentContainer>
                                                
                         </CardContainer>
 
@@ -393,7 +427,7 @@ export const CountryInfoContainer=styled.div`
       padding: 20px;
       overflow-y: scroll;
 
-      @media (max-width: 280px) {
+      @media (max-width: 560PX) {
           flex-direction: column;
       }
 `;
@@ -404,6 +438,13 @@ export const LeftCountryInfo=styled.div`
          
 `;
 
+export const CardContentContainer=styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 50px;
+`;
 export const RightCountryInfo=styled.div`
        
 `;
@@ -576,11 +617,7 @@ export const Container=styled.div`
 `;
 
 export const CardContainer=styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-top: 50px;
+    width: 100%;
     
 
 `;

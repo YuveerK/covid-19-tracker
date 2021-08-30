@@ -20,7 +20,7 @@ const TopBar = () => {
     const [countryLanguages, setCountryLanguages] = useState ([])
     const [countryBorders, setCountryBorders] = useState ([])
     let countryCode= ``;
-
+    let countryInfoDecider = false;
 
 //Get's table data    
 useEffect (() => {
@@ -116,6 +116,14 @@ useEffect (() => {
         if (countryCode === 'worldwide') {
             setImage (`${global}`)
             setCtyCode("World Wide")
+            setCountryLanguages([])
+            setCountryBorders([])
+            setCountryDetailedInfo ([])
+            await fetch ("https://disease.sh/v3/covid-19/all")
+                .then ((response) => response.json())
+                .then ((data) => {
+                    setCountryInfo(data)
+                }); 
         } else {
             const url= `https://disease.sh/v3/covid-19/countries/${countryCode}`
             await fetch (url)
@@ -131,12 +139,20 @@ useEffect (() => {
                 return response.json()
             })
             .then ((data) => {
-                let languages = data[0].languages
-                let borders = data [0].borders
-                setCountryLanguages(languages)
-                setCountryBorders(borders)
-                setCountryDetailedInfo (data)
-                console.log(data)
+                try {
+                    let languages = data[0].languages
+                    let borders = data [0].borders
+                    setCountryLanguages(languages)
+                    setCountryBorders(borders)
+                    setCountryDetailedInfo (data)
+                    console.log(data)
+                    
+                } catch (error) {
+                    countryInfoDecider = true
+                    setCountryLanguages([])
+                    setCountryBorders([])
+                    setCountryDetailedInfo ([])
+                }
             })
         }
         
@@ -197,7 +213,6 @@ useEffect (() => {
 
 
 
-
     return (
         <Container>
              
@@ -221,8 +236,14 @@ useEffect (() => {
                                 <Heading>
                                     {ctyCode}
                                 </Heading>
+
+                                
                                 <ImageHeading src={image} />
-                                <CountryHeading>Population</CountryHeading>
+                                {countryDetailedInfo.length === 0 && <ErrorMessage>No data found </ErrorMessage>}
+                                    
+                                    
+                                    <CountryHeading>Population</CountryHeading>
+                                    
                                     {countryDetailedInfo.map((country)=> (   
                                         <Heading>
                                             <CountUp separator= ',' duration={3} end={country.population}/> 
@@ -261,9 +282,12 @@ useEffect (() => {
                                 <RightCountryInfo>
                                     <CountryHeading>Languages</CountryHeading>
                                     <Ul>
-                                        {countryLanguages.map ((language) => (
+                                       {countryInfoDecider === false 
+                                       ? countryLanguages.map ((language) => (
                                             <Li>{language.name} </Li>          
-                                            ))}
+                                            ))
+                                       : <Li>""</Li>
+                                        } 
                                     </Ul>
                                     
                                     <CountryHeading>Demonym</CountryHeading>
@@ -382,6 +406,11 @@ export const LeftCountryInfo=styled.div`
 
 export const RightCountryInfo=styled.div`
        
+`;
+
+export const ErrorMessage=styled.p`
+    font-size: 2rem;
+    color: red;
 `;
 export const CountryHeading=styled.h1`
     font-weight: 300 bold;

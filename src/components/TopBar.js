@@ -433,6 +433,9 @@ export const CountryInfoContainer=styled.div`
       margin-top: 20px;
       padding: 20px;
       overflow-y: scroll;
+      background-color: rgb(226, 226, 226);
+      border-radius: 10px;
+
 
       @media (max-width: 560PX) {
           flex-direction: column;

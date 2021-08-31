@@ -551,9 +551,9 @@ export const ImageHeading=styled.img`
    
 `;
 export const TableContainer=styled.div`
-    width: 80%;
+    width: 99%;
     margin: auto;
-    height: 400px;
+    height: fit-content;
     margin-top: 100px;
     box-shadow: 0px 0px 11px 3px #9d9d9d;   
     border-radius: 10px;
@@ -562,13 +562,13 @@ export const TableContainer=styled.div`
     scrollbar-width: none;  /* Firefox */
 
     
-    overflow-y: scroll;
     &::-webkit-scrollbar {
     display: none;
+    }
+    
     @media (max-width: 900px) {
         margin-top: 100px;
     }
-   
 `;
 
 export const ChartContainer=styled.div`
@@ -593,8 +593,7 @@ export const Left=styled.div`
 `;
 export const Right=styled.div`
     flex: 0.2;
-    max-height: 600px;
-    overflow-y: scroll;
+    max-height: fit-content;
     padding: 20px;
     @media (max-width: 900px) {
         margin-top: 80px;

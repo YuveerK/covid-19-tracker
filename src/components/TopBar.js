@@ -20,13 +20,14 @@ const TopBar = () => {
     const [image, setImage] = useState (`${global}`)
     const [countryLanguages, setCountryLanguages] = useState ([])
     const [countryName, setCountryName] = useState ("")
-    const [errorMessage, setErrorMessage] = useState("")
     const [iso3Code, setIso3Code] = useState("")
     let countryCode= ``;
     let countryInfoDecider = false;
     const title = ""
     const row = 
-//Get's table data    
+
+
+//Get's table data for the table    
 useEffect (() => {
     const getTableData = async () => {
         fetch("https://disease.sh/v3/covid-19/countries")
@@ -36,12 +37,11 @@ useEffect (() => {
             console.log(data)
         })
     }
-
-
-
     getTableData()
 }, [])
 
+//Use effect that sends a request everytime the country changes in the drop down menu.
+//The iso3 code is cast as a variable into the link.
 useEffect (() => {
     const getCountryData = async () => {
         const country_url = `https://restcountries.eu/rest/v2/alpha?codes=${iso3Code}`
@@ -95,12 +95,8 @@ useEffect (() => {
                   .then ((response) => response.json())
                   .then ((data) => {
                     setVaccineNum(data[0].total)
-                });
-
-
-                
+                });               
         }
-
         fetchData()
     }, [])
 
@@ -126,6 +122,9 @@ useEffect (() => {
         getCountriesData();
     }, [])
 
+
+    //function that calculates the daily new cases by taking current date and subtracting the previous dates cases.
+    //This data is then passed onto the graph.
     const buildChartData = (data) => {
         let chartData = [];
         let lastDataPoint;
@@ -169,12 +168,8 @@ useEffect (() => {
                 setImage(data.countryInfo.flag)
                 setIso3Code(data.countryInfo.iso3)
                 console.log(iso3Code)
-            })
-
-            
-            
+            })           
         }
-        
 
         if (countryCode === 'worldwide') {
             //Runs call to fetch chart data when option is selected
@@ -213,9 +208,6 @@ useEffect (() => {
                 setData([])
             }
         }
-
-  
-       
         //Get's vaccine data when country is select
         try {
             const url3 = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=1&fullData=true' : `https://disease.sh/v3/covid-19/vaccine/coverage/countries/${countryCode}?lastdays=1&fullData=true`
@@ -229,9 +221,6 @@ useEffect (() => {
             setVaccineNum({})
         }
     }
-
-
-
     return (
         <Container>
              
@@ -258,13 +247,15 @@ useEffect (() => {
 
                                 
                                 <ImageHeading src={image} />
-                                {countryCode === 'worldwide' && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                                
                                 <CountryHeading>Population</CountryHeading>        
                                   
                                         <Heading>
                                             <CountUp separator= ',' duration={3} end={countryInfo.population}/> 
                                         </Heading>
                                     
+
+                            {countryDetailedInfo .length > 0 &&
 
                             <CountryInfoContainer>
                                 <LeftCountryInfo>
@@ -345,7 +336,7 @@ useEffect (() => {
                                     </Ul>
                                 </RightCountryInfo>
                             </CountryInfoContainer>                            
-
+                        }
                             
 
                             
@@ -693,9 +684,4 @@ export const Option=styled.option`
     width: 100%;
 
 `;
-
-
-
-
-
 export default TopBar

@@ -20,6 +20,7 @@ const TopBar = () => {
     const [countryLanguages, setCountryLanguages] = useState ([])
     const [countryBorders, setCountryBorders] = useState ([])
     const [errorMessage, setErrorMessage] = useState("")
+    const [iso3Code, setIso3Code] = useState("")
     let countryCode= ``;
     let countryInfoDecider = false;
 
@@ -34,6 +35,33 @@ useEffect (() => {
     }
     getTableData()
 }, [])
+
+useEffect (() => {
+    const getCountryData = async () => {
+        const country_url = `https://restcountries.eu/rest/v2/alpha?codes=${iso3Code}`
+            await fetch (country_url)
+            .then ((response) => {
+                return response.json()
+            })
+            .then ((data) => {
+                try {
+                    let languages = data[0].languages
+                    let borders = data [0].borders
+                    setCountryLanguages(languages)
+                    setCountryBorders(borders)
+                    setCountryDetailedInfo (data)
+                    console.log(data)
+                    
+                } catch (error) {
+                    countryInfoDecider = true
+                    setCountryLanguages([])
+                    setCountryBorders([])
+                    setCountryDetailedInfo ([])
+                }
+            })
+    }
+    getCountryData()
+}, [iso3Code])
 
 
 
@@ -132,29 +160,12 @@ useEffect (() => {
             .then(data => {
                 setCountryInfo(data)
                 setImage(data.countryInfo.flag)
+                setIso3Code(data.countryInfo.iso3)
+                console.log(iso3Code)
             })
 
-            const country_url = `https://restcountries.eu/rest/v2/name/${countryCode}?fullText=true`
-            await fetch (country_url)
-            .then ((response) => {
-                return response.json()
-            })
-            .then ((data) => {
-                try {
-                    let languages = data[0].languages
-                    let borders = data [0].borders
-                    setCountryLanguages(languages)
-                    setCountryBorders(borders)
-                    setCountryDetailedInfo (data)
-                    console.log(data)
-                    
-                } catch (error) {
-                    countryInfoDecider = true
-                    setCountryLanguages([])
-                    setCountryBorders([])
-                    setCountryDetailedInfo ([])
-                }
-            })
+            
+            
         }
         
 
@@ -254,7 +265,7 @@ useEffect (() => {
                                 {countryDetailedInfo.length > 0 && <CountryHeading>Native Name</CountryHeading>}        
                                     <Ul>
                                         {countryDetailedInfo.map ((name) => (
-                                            <Li>{name.nativeName} </Li>
+                                            <Li key={name}>{name.nativeName} </Li>
                                         ))}
 
                                     </Ul>
@@ -262,7 +273,7 @@ useEffect (() => {
                                     {countryDetailedInfo.length > 0 && <CountryHeading>Capital</CountryHeading>}
                                     <Ul>
                                         {countryDetailedInfo.map ((name) => (
-                                            <Li>{name.capital} </Li>
+                                            <Li key={name}>{name.capital} </Li>
                                         ))}
 
                                     </Ul>
@@ -270,7 +281,7 @@ useEffect (() => {
                                     {countryDetailedInfo.length > 0 && <CountryHeading>Region</CountryHeading>}
                                     <Ul>
                                         {countryDetailedInfo.map ((name) => (
-                                            <Li>{name.region} </Li>
+                                            <Li key={name}>{name.region} </Li>
                                         ))}
 
                                     </Ul>
@@ -279,19 +290,19 @@ useEffect (() => {
                                     <Ul>
                                         
                                         {countryDetailedInfo.map ((currency, index) => (
-                                            <Li>
+                                            <Li key={currency}>
                                                 {currency.currencies[index].code}
                                                 
                                              </Li>
                                         ))}
                                         {countryDetailedInfo.map ((currency, index) => (
-                                            <Li>
+                                            <Li key={currency}>
                                                 {currency.currencies[index].name}
                                                 
                                              </Li>
                                         ))}
                                         {countryDetailedInfo.map ((currency, index) => (
-                                            <Li>
+                                            <Li key={currency}>
                                                 {currency.currencies[index].symbol}
                                                 
                                              </Li>
@@ -307,7 +318,7 @@ useEffect (() => {
                                     <Ul>
                                        {countryInfoDecider === false 
                                        ? countryLanguages.map ((language) => (
-                                            <Li>{language.name} </Li>          
+                                            <Li key={language}>{language.name} </Li>          
                                             ))
                                        : <Li>""</Li>
                                         } 
@@ -316,14 +327,14 @@ useEffect (() => {
                                     {countryDetailedInfo.length > 0 && <CountryHeading>Demonym</CountryHeading>}
                                     <Ul>
                                         {countryDetailedInfo.map ((demonym) => (
-                                            <Li>{demonym.demonym} </Li>          
+                                            <Li key={demonym}>{demonym.demonym} </Li>          
                                             ))}
                                     </Ul>
                                     
                                     {countryDetailedInfo.length > 0 && <CountryHeading>Numeric Code</CountryHeading>}
                                     <Ul>
                                         {countryDetailedInfo.map ((numericCode, index) => (
-                                            <Li>+{numericCode.callingCodes[index]} </Li>          
+                                            <Li key={numericCode}>+{numericCode.callingCodes[index]} </Li>          
                                             ))}
                                     </Ul>
                                 </RightCountryInfo>

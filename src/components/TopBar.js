@@ -3,7 +3,7 @@ import logo from "../assets/logo.svg";
 import React, {useState, useEffect} from 'react'
 import Chart from "./Chart";
 import Table from "../components/Table"
-import Cards from "./Card"
+import Cards, { Icon } from "./Card"
 import global from "../assets/globe.png"
 import CountUp from "react-countup";
 
@@ -19,6 +19,7 @@ const TopBar = () => {
     const [image, setImage] = useState (`${global}`)
     const [countryLanguages, setCountryLanguages] = useState ([])
     const [countryBorders, setCountryBorders] = useState ([])
+    const [errorMessage, setErrorMessage] = useState("")
     let countryCode= ``;
     let countryInfoDecider = false;
 
@@ -240,10 +241,7 @@ useEffect (() => {
                                 
                                 <ImageHeading src={image} />
                                 {countryDetailedInfo.length === 0 && <ErrorMessage>No data found </ErrorMessage>}
-                                    
-                                    
-                                    <CountryHeading>Population</CountryHeading>
-                                    
+                                {countryDetailedInfo.length > 0 &&   <CountryHeading>Population</CountryHeading>}        
                                     {countryDetailedInfo.map((country)=> (   
                                         <Heading>
                                             <CountUp separator= ',' duration={3} end={country.population}/> 
@@ -252,7 +250,7 @@ useEffect (() => {
 
                             <CountryInfoContainer>
                                 <LeftCountryInfo>
-                                    <CountryHeading>Native Name</CountryHeading>
+                                {countryDetailedInfo.length > 0 && <CountryHeading>Native Name</CountryHeading>}        
                                     <Ul>
                                         {countryDetailedInfo.map ((name) => (
                                             <Li>{name.nativeName} </Li>
@@ -260,7 +258,7 @@ useEffect (() => {
 
                                     </Ul>
                                     
-                                    <CountryHeading>Capital</CountryHeading>
+                                    {countryDetailedInfo.length > 0 && <CountryHeading>Capital</CountryHeading>}
                                     <Ul>
                                         {countryDetailedInfo.map ((name) => (
                                             <Li>{name.capital} </Li>
@@ -268,16 +266,17 @@ useEffect (() => {
 
                                     </Ul>
                                     
-                                    <CountryHeading>Region</CountryHeading>
+                                    {countryDetailedInfo.length > 0 && <CountryHeading>Region</CountryHeading>}
                                     <Ul>
                                         {countryDetailedInfo.map ((name) => (
-                                            <Li>{name.capital} </Li>
+                                            <Li>{name.region} </Li>
                                         ))}
 
                                     </Ul>
                                     
-                                    <CountryHeading>Currencies</CountryHeading>
+                                    {countryDetailedInfo.length > 0 && <CountryHeading>Currencies</CountryHeading>}
                                     <Ul>
+                                        
                                         {countryDetailedInfo.map ((currency, index) => (
                                             <Li>
                                                 {currency.currencies[index].code}
@@ -303,7 +302,7 @@ useEffect (() => {
                                 </LeftCountryInfo>
 
                                 <RightCountryInfo>
-                                    <CountryHeading>Languages</CountryHeading>
+                                {countryLanguages.length > 0 && <CountryHeading>Native Name</CountryHeading>}
                                     <Ul>
                                        {countryInfoDecider === false 
                                        ? countryLanguages.map ((language) => (
@@ -313,22 +312,21 @@ useEffect (() => {
                                         } 
                                     </Ul>
                                     
-                                    <CountryHeading>Demonym</CountryHeading>
+                                    {countryDetailedInfo.length > 0 && <CountryHeading>Demonym</CountryHeading>}
                                     <Ul>
                                         {countryDetailedInfo.map ((demonym) => (
                                             <Li>{demonym.demonym} </Li>          
                                             ))}
                                     </Ul>
                                     
-                                    <CountryHeading>Numeric Code</CountryHeading>
+                                    {countryDetailedInfo.length > 0 && <CountryHeading>Numeric Code</CountryHeading>}
                                     <Ul>
                                         {countryDetailedInfo.map ((numericCode, index) => (
                                             <Li>+{numericCode.callingCodes[index]} </Li>          
                                             ))}
                                     </Ul>
                                 </RightCountryInfo>
-                            </CountryInfoContainer>
-                            
+                            </CountryInfoContainer>                            
 
                             
 
@@ -402,6 +400,14 @@ useEffect (() => {
     )
 }
 
+export const Icons=styled.i`
+    font-size: 1rem;  
+    color:green; 
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+
+`;
 
 export const HeadingContainer=styled.div`
     width: 100%;
@@ -413,7 +419,7 @@ export const HeadingContainer=styled.div`
     padding: 15px;
     flex-direction: column;
     box-shadow: 0px 0px 11px 3px #9d9d9d;      
-    @media (max-width: 280px) {
+     @media (max-width: 280px) {
           
       }
 `;

@@ -19,7 +19,7 @@ const TopBar = () => {
     const [ctyCode, setCtyCode] = useState ("World Wide")
     const [image, setImage] = useState (`${global}`)
     const [countryLanguages, setCountryLanguages] = useState ([])
-    const [countryBorders, setCountryBorders] = useState ([])
+    const [countryName, setCountryName] = useState ("")
     const [errorMessage, setErrorMessage] = useState("")
     const [iso3Code, setIso3Code] = useState("")
     let countryCode= ``;
@@ -54,14 +54,12 @@ useEffect (() => {
                     let languages = data[0].languages
                     let borders = data [0].borders
                     setCountryLanguages(languages)
-                    setCountryBorders(borders)
                     setCountryDetailedInfo (data)
                     console.log(data)
                     
                 } catch (error) {
                     countryInfoDecider = true
                     setCountryLanguages([])
-                    setCountryBorders([])
                     setCountryDetailedInfo ([])
                 }
             })
@@ -118,7 +116,8 @@ useEffect (() => {
             .then((data) => {
                 const countries = data.map ((country)=> (
                     {
-                        name: country.country
+                        name: country.country,
+                        isocode: country.countryInfo.iso3
                     }
                 ))
                 setCountries(countries)
@@ -149,13 +148,12 @@ useEffect (() => {
     const onCountryChange = async (event) => {
          countryCode = event.target.value;
          setCtyCode(countryCode)
-
+        
 
         if (countryCode === 'worldwide') {
             setImage (`${global}`)
             setCtyCode("World Wide")
             setCountryLanguages([])
-            setCountryBorders([])
             setCountryDetailedInfo ([])
             await fetch ("https://disease.sh/v3/covid-19/all")
                 .then ((response) => response.json())
@@ -218,7 +216,7 @@ useEffect (() => {
 
   
        
-        //Get's vaccine data when country is selected
+        //Get's vaccine data when country is select
         try {
             const url3 = countryCode ==='worldwide' ? 'https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=1&fullData=true' : `https://disease.sh/v3/covid-19/vaccine/coverage/countries/${countryCode}?lastdays=1&fullData=true`
 
@@ -228,7 +226,7 @@ useEffect (() => {
                 countryCode === 'worldwide' ? setVaccineNum(data[0].total) : setVaccineNum(data.timeline[0].total)
             })
         } catch (error) { 
-
+            setVaccineNum({})
         }
     }
 
@@ -247,7 +245,7 @@ useEffect (() => {
                     <Select onChange={onCountryChange}>
                         <Option value="worldwide">World Wide</Option>
                         {countries.map((country)=> (
-                            <Option value={country.name}>{country.name}</Option>
+                            <Option value={country.isocode}>{country.name}</Option>
                         ))}
                     </Select>
             </TitleContainer>            
@@ -255,14 +253,13 @@ useEffect (() => {
                         <HeadingContainer>
                             <HeadingContentContainer>
                                 <Heading>
-                                    {ctyCode}
+                                    {countryInfo.country}
                                 </Heading>
 
                                 
                                 <ImageHeading src={image} />
-                                {countryDetailedInfo.length === 0 && <ErrorMessage>No data found </ErrorMessage>}
                                 {countryCode === 'worldwide' && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                                {countryDetailedInfo.length > 0 &&   <CountryHeading>Population</CountryHeading>}        
+                                <CountryHeading>Population</CountryHeading>        
                                   
                                         <Heading>
                                             <CountUp separator= ',' duration={3} end={countryInfo.population}/> 
@@ -431,6 +428,13 @@ useEffect (() => {
 export const TableContentContainer=styled.div`
     width: 100%;
     overflow-y: scroll;
+    
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    &::-webkit-scrollbar {
+    display: none;
+}
 
 `;
 export const Icons=styled.i`
@@ -551,7 +555,16 @@ export const TableContainer=styled.div`
     margin: auto;
     height: 400px;
     margin-top: 100px;
+    box-shadow: 0px 0px 11px 3px #9d9d9d;   
+    border-radius: 10px;
+    padding: 15px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    
     overflow-y: scroll;
+    &::-webkit-scrollbar {
+    display: none;
     @media (max-width: 900px) {
         margin-top: 100px;
     }
@@ -582,6 +595,7 @@ export const Right=styled.div`
     flex: 0.2;
     max-height: 600px;
     overflow-y: scroll;
+    padding: 20px;
     @media (max-width: 900px) {
         margin-top: 80px;
     }

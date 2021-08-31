@@ -138,7 +138,6 @@ const Table = ({tableData}) => {
     ))
 
     const row = countries;
-console.log(row)
     
 
  

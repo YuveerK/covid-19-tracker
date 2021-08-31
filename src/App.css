@@ -9,6 +9,12 @@
 
 }
 
+.leaflet-container {
+  width: 90%;
+  margin: auto;
+  height: 800px;
+}
+
 
 @keyframes App-logo-spin {
   from {

@@ -7,6 +7,8 @@ import Cards, { Icon } from "./Card"
 import global from "../assets/globe.png"
 import CountUp from "react-countup";
 import DataTable from 'react-data-table-component';
+import Map from "./Map";
+
 
 
 const TopBar = () => {
@@ -255,7 +257,7 @@ useEffect (() => {
                                         </Heading>
                                     
 
-                            {countryDetailedInfo .length > 0 &&
+                            
 
                             <CountryInfoContainer>
                                 <LeftCountryInfo>
@@ -336,7 +338,7 @@ useEffect (() => {
                                     </Ul>
                                 </RightCountryInfo>
                             </CountryInfoContainer>                            
-                        }
+                        
                             
 
                             
@@ -410,7 +412,9 @@ useEffect (() => {
 
                         </TableContainer>
                     </Right>
+                    <Map data={tableData}/>
         </Container>
+
         
    
     )

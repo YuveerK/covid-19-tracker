@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import {  Line, Bar } from 'react-chartjs-2'
 import numeral from "numeral";
-const Chart = ({ data, casesType }) => {
+import { ErrorMessage } from "./TopBar";
+const Chart = ({ data, errorMessage }) => {
  
     const state = {
         
@@ -68,14 +69,11 @@ const Chart = ({ data, casesType }) => {
 
             <Container>
                 <GraphContainer>
-
+                  <ErrorMessage>{errorMessage}</ErrorMessage>
                   {data?.length > 0 && (
                     <Line height = "100%"
                        data={state}
-                        options={options}
-                       
-                        
-                        
+                        options={options}                       
                     />
                   )}
                 </GraphContainer>
@@ -92,6 +90,9 @@ export const Container = styled.div `
     align-items: center;
     justify-content: center;
     margin-top: 100px;
+    box-shadow: 0px 0px 11px 3px #9d9d9d;    
+    border-radius: 15px;  
+
 `;
 
 export const GraphContainer = styled.div `

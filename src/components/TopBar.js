@@ -192,7 +192,7 @@ useEffect (() => {
                   });
                   
             } catch (error) {
-                alert('No hisorical chart data found, graph is populated with last dataset')
+                setData([])
             }
         }
 
@@ -241,6 +241,7 @@ useEffect (() => {
                                 
                                 <ImageHeading src={image} />
                                 {countryDetailedInfo.length === 0 && <ErrorMessage>No data found </ErrorMessage>}
+                                {countryCode === 'worldwide' && <ErrorMessage>{errorMessage}</ErrorMessage>}
                                 {countryDetailedInfo.length > 0 &&   <CountryHeading>Population</CountryHeading>}        
                                     {countryDetailedInfo.map((country)=> (   
                                         <Heading>
@@ -383,7 +384,7 @@ useEffect (() => {
                         </CardContainer>
 
                         <ChartContainer>
-                            <Chart data={data}/>
+                            <Chart data={data} errorMessage={data.length === 0 ? `No Timeline Data of ${ctyCode} to display` : ""}/>
                         </ChartContainer>
 
                     </Left>

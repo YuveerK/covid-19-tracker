@@ -10,9 +10,9 @@ const Chart = ({ data, errorMessage }) => {
           {
             label: 'Daily New: Covid-19 Cases',
             fill: false,
-            lineTension: 0.5,
-            backgroundColor: 'rgba(0,0,0,1)',
-            borderColor: 'rgba(0,0,0,1)',
+            lineTension: 0.4,
+            backgroundColor: 'darkgreen',
+            borderColor: 'red',
             borderWidth: 1,
             data: data
           }

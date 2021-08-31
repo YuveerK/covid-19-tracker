@@ -201,7 +201,8 @@ useEffect (() => {
                   .then((response) => {
                     return response.json();
                   })
-                  .then((data) => {    
+                  .then((data) => {  
+                    console.log(data)  
                     let chartData = buildChartData(data.timeline)
                     setData(chartData);                
                   });
@@ -258,7 +259,7 @@ useEffect (() => {
                                     
 
                             
-
+                            {countryDetailedInfo.length> 0 &&
                             <CountryInfoContainer>
                                 <LeftCountryInfo>
                                 {countryDetailedInfo.length > 0 && <CountryHeading>Native Name</CountryHeading>}        
@@ -313,7 +314,7 @@ useEffect (() => {
                                 </LeftCountryInfo>
 
                                 <RightCountryInfo>
-                                {countryLanguages.length > 0 && <CountryHeading>Native Name</CountryHeading>}
+                                {countryLanguages.length > 0 && <CountryHeading>Languages</CountryHeading>}
                                     <Ul>
                                        {countryInfoDecider === false 
                                        ? countryLanguages.map ((language) => (
@@ -337,7 +338,8 @@ useEffect (() => {
                                             ))}
                                     </Ul>
                                 </RightCountryInfo>
-                            </CountryInfoContainer>                            
+                            </CountryInfoContainer>   
+                            }                         
                         
                             
 
@@ -412,7 +414,8 @@ useEffect (() => {
 
                         </TableContainer>
                     </Right>
-                    <Map data={tableData}/>
+                    
+                    {/* <Map data={tableData}/> */}
         </Container>
 
         

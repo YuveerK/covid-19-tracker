@@ -6,6 +6,7 @@ import Table from "../components/Table"
 import Cards, { Icon } from "./Card"
 import global from "../assets/globe.png"
 import CountUp from "react-countup";
+import DataTable from 'react-data-table-component';
 
 
 const TopBar = () => {
@@ -23,16 +24,21 @@ const TopBar = () => {
     const [iso3Code, setIso3Code] = useState("")
     let countryCode= ``;
     let countryInfoDecider = false;
-
+    const title = ""
+    const row = 
 //Get's table data    
 useEffect (() => {
     const getTableData = async () => {
-        fetch("https://disease.sh/v3/covid-19/countries?sort=cases")
+        fetch("https://disease.sh/v3/covid-19/countries")
         .then((response) => response.json())
         .then((data) => {
             setTableData(data)
+            console.log(data)
         })
     }
+
+
+
     getTableData()
 }, [])
 
@@ -92,6 +98,9 @@ useEffect (() => {
                   .then ((data) => {
                     setVaccineNum(data[0].total)
                 });
+
+
+                
         }
 
         fetchData()
@@ -254,11 +263,11 @@ useEffect (() => {
                                 {countryDetailedInfo.length === 0 && <ErrorMessage>No data found </ErrorMessage>}
                                 {countryCode === 'worldwide' && <ErrorMessage>{errorMessage}</ErrorMessage>}
                                 {countryDetailedInfo.length > 0 &&   <CountryHeading>Population</CountryHeading>}        
-                                    {countryDetailedInfo.map((country)=> (   
+                                  
                                         <Heading>
-                                            <CountUp separator= ',' duration={3} end={country.population}/> 
+                                            <CountUp separator= ',' duration={3} end={countryInfo.population}/> 
                                         </Heading>
-                                    ))}
+                                    
 
                             <CountryInfoContainer>
                                 <LeftCountryInfo>
@@ -402,8 +411,15 @@ useEffect (() => {
 
                 
                     <Right>
+                        
+                        
                         <TableContainer>
-                            <Table tableData ={tableData} />
+                            <CountryHeading> Data Table Summarising COVID-19 Statistics Globally </CountryHeading>
+
+                            <TableContentContainer>
+                                <Table tableData = {tableData} />
+                            </TableContentContainer>
+
                         </TableContainer>
                     </Right>
         </Container>
@@ -412,6 +428,11 @@ useEffect (() => {
     )
 }
 
+export const TableContentContainer=styled.div`
+    width: 100%;
+    overflow-y: scroll;
+
+`;
 export const Icons=styled.i`
     font-size: 1rem;  
     color:green; 
@@ -526,9 +547,11 @@ export const ImageHeading=styled.img`
    
 `;
 export const TableContainer=styled.div`
-    width: 100%;
+    width: 80%;
+    margin: auto;
     height: 400px;
     margin-top: 100px;
+    overflow-y: scroll;
     @media (max-width: 900px) {
         margin-top: 100px;
     }

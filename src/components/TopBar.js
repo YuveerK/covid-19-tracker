@@ -24,7 +24,7 @@ const TopBar = () => {
     const [countryName, setCountryName] = useState ("")
     const [iso3Code, setIso3Code] = useState("")
     const [cord, setCord] = useState({});
-    const [weather, setWeather] = useState([])
+    const [weather, setWeather] = useState({})
     const [temperature, setTemperature] = useState({})
     let countryCode= ``;
     let countryInfoDecider = false;
@@ -92,8 +92,8 @@ useEffect (() => {
     }
     getCountryData()
 }, [cord])
-console.log(weather.icon)
-console.log(temperature)
+console.log(weather)
+// console.log(temperature)
 
 
 //Loads initial world data
@@ -282,22 +282,7 @@ console.log(temperature)
 
                                         <CountryHeading>Weather</CountryHeading>
                                         
-                                        
-                                        <WeatherContainer>
-                                            <WeatherLeft>
-                                                <ImageCountry src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`} />
-                                            </WeatherLeft>
-
-                                            <WeatherRight>
-                                                <Heading>
-                                                    {weather.description}
-                                                </Heading>
-                                                <Heading>
-                                                    {`${Math.round(temperature.temp, 1)} °C`}
-                                                </Heading>
-                                                
-                                            </WeatherRight>
-                                        </WeatherContainer>
+                                   
 
 
                                     
@@ -454,6 +439,25 @@ console.log(temperature)
                             </TableContentContainer>
 
                         </TableContainer>
+
+
+
+                             
+                        <WeatherContainer>
+                                            <WeatherLeft>
+                                                <ImageCountry src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`} />
+                                            </WeatherLeft>
+
+                                            <WeatherRight>
+                                                <Heading>
+                                                    {weather.description}
+                                                </Heading>
+                                                <Heading>
+                                                    {`${Math.round(temperature.temp, 1)} °C`}
+                                                </Heading>
+                                                
+                                            </WeatherRight>
+                                        </WeatherContainer>
                     </Right>
                     
                     {/* <Map data={tableData}/> */}

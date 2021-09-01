@@ -24,8 +24,6 @@ const TopBar = () => {
     const [countryName, setCountryName] = useState ("")
     const [iso3Code, setIso3Code] = useState("")
     const [cord, setCord] = useState({});
-    const [weather, setWeather] = useState([])
-    const [temperature, setTemperature] = useState({})
     let countryCode= ``;
     let countryInfoDecider = false;
     const title = ""
@@ -227,31 +225,7 @@ useEffect (() => {
     }
 
 
-    //Use effect that sends a request everytime the country changes in the drop down menu.
-//The iso3 code is cast as a variable into the link.
-useEffect (() => {
-    const getCountryData = async () => {
-        const country_url = `http://api.openweathermap.org/data/2.5/weather?lat=${cord.lat}&lon=${cord.long}&units=metric&appid=9593eca72eb8c1dbf309188937a446d7`
-            await fetch (country_url)
-            .then ((response) => {
-                return response.json()
-            })
-            .then ((data) => {
-                try {
-                   setWeather(data.weather[0])
-                   setTemperature(data.main)
-                   
-                    // console.log(weather)
-                    
-                } catch (error) {
-                    
-                }
-            })
-    }
-    getCountryData()
-}, [cord])
-console.log(weather.icon)
-console.log(temperature)
+
     return (
         <Container>
              
@@ -284,24 +258,9 @@ console.log(temperature)
                                                 <CountUp separator= ',' duration={3} end={countryInfo.population}/> 
                                             </Heading>
 
-                                        <CountryHeading>Weather</CountryHeading>
+                                
                                         
                                         
-                                        <WeatherContainer>
-                                            <WeatherLeft>
-                                                <ImageCountry src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`} />
-                                            </WeatherLeft>
-
-                                            <WeatherRight>
-                                                <Heading>
-                                                    {weather.description}
-                                                </Heading>
-                                                <Heading>
-                                                    {`${Math.round(temperature.temp, 1)} °C`}
-                                                </Heading>
-                                                
-                                            </WeatherRight>
-                                        </WeatherContainer>
 
 
                                     
@@ -468,37 +427,6 @@ console.log(temperature)
     )
 }
 
-export const WeatherLeft=styled.div`
-    width: 100px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-`;
-export const WeatherRight=styled.div`
-    text-align: center;
-
-`;
-export const ImageCountry=styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    
-
-`;
-
-export const WeatherContainer=styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    box-shadow: 0px 0px 11px 3px #9d9d9d;   
-    padding: 20px;
-    border-radius: 8px;
-
-`;
 export const TableContentContainer=styled.div`
     width: 100%;
     overflow-y: scroll;

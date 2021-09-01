@@ -8,6 +8,7 @@ import global from "../assets/globe.png"
 import CountUp from "react-countup";
 import DataTable from 'react-data-table-component';
 import Map from "./Map";
+import pic from "../assets/countrybg.jpg"
 
 
 
@@ -253,7 +254,7 @@ useEffect (() => {
         }
     }
     
-
+    
 
     console.log(weather)
 
@@ -488,6 +489,8 @@ export const WeatherImageIcon=styled.img`
 
 `;
 export const WeatherContainer=styled.div`
+    
+    color: black;
     width: 100%;
     display: flex;
     align-items: center;
@@ -524,6 +527,7 @@ export const Icons=styled.i`
 `;
 
 export const HeadingContainer=styled.div`
+  background-size: cover;
     width: 100%;
     display: flex;
     height: fit-content;
@@ -532,7 +536,8 @@ export const HeadingContainer=styled.div`
     background-color: lightgrey;
     padding: 15px;
     flex-direction: column;
-    box-shadow: 0px 0px 11px 3px #9d9d9d;      
+    background-image: url("https://images.pexels.com/photos/41949/earth-earth-at-night-night-lights-41949.jpeg?cs=srgb&dl=pexels-pixabay-41949.jpg&fm=jpg");
+     
      @media (max-width: 280px) {
           
       }
@@ -589,13 +594,13 @@ export const Li=styled.li`
     padding-left: 20px;
 `;
 export const HeadingContentContainer=styled.div`
+    background-size: cover;
     width: 500px;
     height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    box-shadow: 0px 0px 11px 3px #9d9d9d;   
     border-radius: 10px;
     background-color: white;
     padding: 20px;

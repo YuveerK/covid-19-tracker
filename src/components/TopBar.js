@@ -496,12 +496,10 @@ export const WeatherContainer=styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    box-shadow: 0px 0px 11px 3px #00017F;  
+    box-shadow: 0px 0px 11px 3px #9d9d9d;  
     padding: 20px;
     margin-top: 30px;
     border-radius: 10px;
-    transition: 2s ease-in;
-    color: white;
 
 `;
 
@@ -533,7 +531,6 @@ export const HeadingContainer=styled.div`
     width: 100%;
     display: flex;
     height: fit-content;
-    transition: 2s ease-in;
     align-items: center;
     justify-content: center;
     background-color: lightgrey;
@@ -554,16 +551,9 @@ export const CountryInfoContainer=styled.div`
       margin-top: 20px;
       padding: 20px;
       overflow-y: scroll;
-      box-shadow: 0px 0px 11px 3px #00017F;  
-
+      background-color: rgb(226, 226, 226);
       border-radius: 10px;
-      -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
 
-    
-    &::-webkit-scrollbar {
-    display: none;
-    }
 
       @media (max-width: 560PX) {
           flex-direction: column;
@@ -612,9 +602,9 @@ export const HeadingContentContainer=styled.div`
     justify-content: center;
     flex-direction: column;
     border-radius: 10px;
-    background-color: #00011F;
+    background-color: white;
     padding: 20px;
-    color: white;
+
     @media (max-width: 280px) {
         width: 100%;
         flex-direction: column;

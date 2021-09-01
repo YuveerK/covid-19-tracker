@@ -23,6 +23,9 @@ const TopBar = () => {
     const [countryLanguages, setCountryLanguages] = useState ([])
     const [countryName, setCountryName] = useState ("")
     const [iso3Code, setIso3Code] = useState("")
+    const [cord, setCord] = useState({});
+    const [weather, setWeather] = useState([])
+    const [temperature, setTemperature] = useState({})
     let countryCode= ``;
     let countryInfoDecider = false;
     const title = ""
@@ -36,7 +39,6 @@ useEffect (() => {
         .then((response) => response.json())
         .then((data) => {
             setTableData(data)
-            console.log(data)
         })
     }
     getTableData()
@@ -57,7 +59,6 @@ useEffect (() => {
                     let borders = data [0].borders
                     setCountryLanguages(languages)
                     setCountryDetailedInfo (data)
-                    console.log(data)
                     
                 } catch (error) {
                     countryInfoDecider = true
@@ -69,6 +70,31 @@ useEffect (() => {
     getCountryData()
 }, [iso3Code])
 
+//Use effect that sends a request everytime the country changes in the drop down menu.
+//The iso3 code is cast as a variable into the link.
+useEffect (() => {
+    const getCountryData = async () => {
+        const country_url = `http://api.openweathermap.org/data/2.5/weather?lat=${cord.lat}&lon=${cord.long}&units=metric&appid=9593eca72eb8c1dbf309188937a446d7`
+            await fetch (country_url)
+            .then ((response) => {
+                return response.json()
+            })
+            .then ((data) => {
+                try {
+                   setWeather(data.weather[0])
+                   setTemperature(data.main)
+                   
+                    // console.log(weather)
+                    
+                } catch (error) {
+                    
+                }
+            })
+    }
+    getCountryData()
+}, [cord])
+console.log(weather.icon)
+console.log(temperature)
 
 
 //Loads initial world data
@@ -169,7 +195,7 @@ useEffect (() => {
                 setCountryInfo(data)
                 setImage(data.countryInfo.flag)
                 setIso3Code(data.countryInfo.iso3)
-                console.log(iso3Code)
+                setCord(data.countryInfo)
             })           
         }
 
@@ -202,7 +228,6 @@ useEffect (() => {
                     return response.json();
                   })
                   .then((data) => {  
-                    console.log(data)  
                     let chartData = buildChartData(data.timeline)
                     setData(chartData);                
                   });
@@ -243,112 +268,128 @@ useEffect (() => {
             </TitleContainer>            
                     <Left>
                         <HeadingContainer>
-                            <HeadingContentContainer>
-                                <Heading>
-                                    {countryInfo.country}
-                                </Heading>
-
-                                
-                                <ImageHeading src={image} />
-                                
-                                <CountryHeading>Population</CountryHeading>        
-                                  
+                                <HeadingContentContainer>
                                         <Heading>
-                                            <CountUp separator= ',' duration={3} end={countryInfo.population}/> 
+                                            {countryInfo.country}
                                         </Heading>
-                                    
 
-                            
-                            {countryDetailedInfo.length> 0 &&
-                            <CountryInfoContainer>
-                                <LeftCountryInfo>
-                                {countryDetailedInfo.length > 0 && <CountryHeading>Native Name</CountryHeading>}        
-                                    <Ul>
-                                        {countryDetailedInfo.map ((name) => (
-                                            <Li key={name}>{name.nativeName} </Li>
-                                        ))}
-
-                                    </Ul>
-                                    
-                                    {countryDetailedInfo.length > 0 && <CountryHeading>Capital</CountryHeading>}
-                                    <Ul>
-                                        {countryDetailedInfo.map ((name) => (
-                                            <Li key={name}>{name.capital} </Li>
-                                        ))}
-
-                                    </Ul>
-                                    
-                                    {countryDetailedInfo.length > 0 && <CountryHeading>Region</CountryHeading>}
-                                    <Ul>
-                                        {countryDetailedInfo.map ((name) => (
-                                            <Li key={name}>{name.region} </Li>
-                                        ))}
-
-                                    </Ul>
-                                    
-                                    {countryDetailedInfo.length > 0 && <CountryHeading>Currencies</CountryHeading>}
-                                    <Ul>
                                         
-                                        {countryDetailedInfo.map ((currency, index) => (
-                                            <Li key={currency}>
-                                                {currency.currencies[index].code}
-                                                
-                                             </Li>
-                                        ))}
-                                        {countryDetailedInfo.map ((currency, index) => (
-                                            <Li key={currency}>
-                                                {currency.currencies[index].name}
-                                                
-                                             </Li>
-                                        ))}
-                                        {countryDetailedInfo.map ((currency, index) => (
-                                            <Li key={currency}>
-                                                {currency.currencies[index].symbol}
-                                                
-                                             </Li>
-                                        ))}
+                                        <ImageHeading src={image} />
+                                        
+                                        <CountryHeading>Population</CountryHeading>        
+                                            <Heading>
+                                                <CountUp separator= ',' duration={3} end={countryInfo.population}/> 
+                                            </Heading>
 
-                                    </Ul>
-                                    
-                                   
-                                </LeftCountryInfo>
+                                        <CountryHeading>Weather</CountryHeading>
+                                        
+                                        <WeatherContainer>
+                                            <WeatherLeft>
+                                                <ImageCountry src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`} />
+                                            </WeatherLeft>
 
-                                <RightCountryInfo>
-                                {countryLanguages.length > 0 && <CountryHeading>Languages</CountryHeading>}
-                                    <Ul>
-                                       {countryInfoDecider === false 
-                                       ? countryLanguages.map ((language) => (
-                                            <Li key={language}>{language.name} </Li>          
-                                            ))
-                                       : <Li>""</Li>
-                                        } 
-                                    </Ul>
-                                    
-                                    {countryDetailedInfo.length > 0 && <CountryHeading>Demonym</CountryHeading>}
-                                    <Ul>
-                                        {countryDetailedInfo.map ((demonym) => (
-                                            <Li key={demonym}>{demonym.demonym} </Li>          
-                                            ))}
-                                    </Ul>
-                                    
-                                    {countryDetailedInfo.length > 0 && <CountryHeading>Numeric Code</CountryHeading>}
-                                    <Ul>
-                                        {countryDetailedInfo.map ((numericCode, index) => (
-                                            <Li key={numericCode}>+{numericCode.callingCodes[index]} </Li>          
-                                            ))}
-                                    </Ul>
-                                </RightCountryInfo>
-                            </CountryInfoContainer>   
-                            }                         
-                        
-                            
+                                            <WeatherRight>
+                                                <Heading>
+                                                    {weather.description}
+                                                </Heading>
+                                                <Heading>
+                                                    {`${Math.round(temperature.temp, 1)} °C`}
+                                                </Heading>
+                                                
+                                            </WeatherRight>
+                                        </WeatherContainer>
 
-                            
+
+                                    
+                                    {countryDetailedInfo.length> 0 &&
+                                    <CountryInfoContainer>
+                                            <LeftCountryInfo>
+                                            {countryDetailedInfo.length > 0 && <CountryHeading>Native Name</CountryHeading>}        
+                                                <Ul>
+                                                    {countryDetailedInfo.map ((name) => (
+                                                        <Li key={name}>{name.nativeName} </Li>
+                                                    ))}
+
+                                                </Ul>
+                                                
+                                                {countryDetailedInfo.length > 0 && <CountryHeading>Capital</CountryHeading>}
+                                                <Ul>
+                                                    {countryDetailedInfo.map ((name) => (
+                                                        <Li key={name}>{name.capital} </Li>
+                                                    ))}
+
+                                                </Ul>
+                                                
+                                                {countryDetailedInfo.length > 0 && <CountryHeading>Region</CountryHeading>}
+                                                <Ul>
+                                                    {countryDetailedInfo.map ((name) => (
+                                                        <Li key={name}>{name.region} </Li>
+                                                    ))}
+
+                                                </Ul>
+                                                
+                                                {countryDetailedInfo.length > 0 && <CountryHeading>Currencies</CountryHeading>}
+                                                <Ul>
+                                                    
+                                                    {countryDetailedInfo.map ((currency, index) => (
+                                                        <Li key={currency}>
+                                                            {currency.currencies[index].code}
+                                                            
+                                                        </Li>
+                                                    ))}
+                                                    {countryDetailedInfo.map ((currency, index) => (
+                                                        <Li key={currency}>
+                                                            {currency.currencies[index].name}
+                                                            
+                                                        </Li>
+                                                    ))}
+                                                    {countryDetailedInfo.map ((currency, index) => (
+                                                        <Li key={currency}>
+                                                            {currency.currencies[index].symbol}
+                                                            
+                                                        </Li>
+                                                    ))}
+
+                                                </Ul>
+                                            </LeftCountryInfo>
+
+                                        <RightCountryInfo>
+                                            {countryLanguages.length > 0 && <CountryHeading>Languages</CountryHeading>}
+                                                <Ul>
+                                                {countryInfoDecider === false 
+                                                ? countryLanguages.map ((language) => (
+                                                        <Li key={language}>{language.name} </Li>          
+                                                        ))
+                                                : <Li>""</Li>
+                                                    } 
+                                                </Ul>
+                                                
+                                                {countryDetailedInfo.length > 0 && <CountryHeading>Demonym</CountryHeading>}
+                                                <Ul>
+                                                    {countryDetailedInfo.map ((demonym) => (
+                                                        <Li key={demonym}>{demonym.demonym} </Li>          
+                                                        ))}
+                                                </Ul>
+                                                
+                                                {countryDetailedInfo.length > 0 && <CountryHeading>Numeric Code</CountryHeading>}
+                                                <Ul>
+                                                    {countryDetailedInfo.map ((numericCode, index) => (
+                                                        <Li key={numericCode}>+{numericCode.callingCodes[index]} </Li>          
+                                                        ))}
+                                                </Ul>
+                                                
+                                                {countryDetailedInfo.length > 0 && <CountryHeading>Time Zone</CountryHeading>}
+                                                <Ul>
+                                                    {countryDetailedInfo.map ((timeZone, index) => (
+                                                        <Li key={timeZone}>{timeZone.timezones[index]} </Li>          
+                                                        ))}
+                                                </Ul>
+                                        </RightCountryInfo>
+                                    </CountryInfoContainer>   
+                                    }                         
                             </HeadingContentContainer>
                         </HeadingContainer>
 
-                        
-                        
                         <CardContainer>
                             
                             <CardContentContainer>
@@ -423,6 +464,37 @@ useEffect (() => {
     )
 }
 
+export const WeatherLeft=styled.div`
+    width: 100px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+`;
+export const WeatherRight=styled.div`
+    text-align: center;
+
+`;
+export const ImageCountry=styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    
+
+`;
+
+export const WeatherContainer=styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0px 0px 11px 3px #9d9d9d;   
+    padding: 20px;
+    border-radius: 8px;
+
+`;
 export const TableContentContainer=styled.div`
     width: 100%;
     overflow-y: scroll;
@@ -435,6 +507,8 @@ export const TableContentContainer=styled.div`
 }
 
 `;
+
+
 export const Icons=styled.i`
     font-size: 1rem;  
     color:green; 

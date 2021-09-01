@@ -9,6 +9,7 @@ const Table = ({tableData}) => {
             name: 'Title',
             selector: row => row.title,
             sortable: true,
+            grow: 3
         },
         {
             name: 'Active',

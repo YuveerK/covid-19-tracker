@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/YuveerK/covid-19-tracker/static/css/main.a7feb6e7.chunk.css",
+    "main.js": "/YuveerK/covid-19-tracker/static/js/main.deb6c72b.chunk.js",
+    "main.js.map": "/YuveerK/covid-19-tracker/static/js/main.deb6c72b.chunk.js.map",
+    "runtime-main.js": "/YuveerK/covid-19-tracker/static/js/runtime-main.183f9186.js",
+    "runtime-main.js.map": "/YuveerK/covid-19-tracker/static/js/runtime-main.183f9186.js.map",
+    "static/js/2.3bf450fe.chunk.js": "/YuveerK/covid-19-tracker/static/js/2.3bf450fe.chunk.js",
+    "static/js/2.3bf450fe.chunk.js.map": "/YuveerK/covid-19-tracker/static/js/2.3bf450fe.chunk.js.map",
+    "static/js/3.c8c7a3a8.chunk.js": "/YuveerK/covid-19-tracker/static/js/3.c8c7a3a8.chunk.js",
+    "static/js/3.c8c7a3a8.chunk.js.map": "/YuveerK/covid-19-tracker/static/js/3.c8c7a3a8.chunk.js.map",
+    "index.html": "/YuveerK/covid-19-tracker/index.html",
+    "static/css/main.a7feb6e7.chunk.css.map": "/YuveerK/covid-19-tracker/static/css/main.a7feb6e7.chunk.css.map",
+    "static/js/2.3bf450fe.chunk.js.LICENSE.txt": "/YuveerK/covid-19-tracker/static/js/2.3bf450fe.chunk.js.LICENSE.txt",
+    "static/media/globe.a860f293.png": "/YuveerK/covid-19-tracker/static/media/globe.a860f293.png",
+    "static/media/logo.55d91961.svg": "/YuveerK/covid-19-tracker/static/media/logo.55d91961.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.183f9186.js",
+    "static/js/2.3bf450fe.chunk.js",
+    "static/css/main.a7feb6e7.chunk.css",
+    "static/js/main.deb6c72b.chunk.js"
+  ]
+}

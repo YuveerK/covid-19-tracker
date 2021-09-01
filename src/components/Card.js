@@ -11,10 +11,10 @@ const Card = ({ icon, heading, currentNumber, totalNumber, subHeading }) => {
                 {heading}
             </Text>
             <Number>
-            <CountUp separator= ',' duration={1} end={currentNumber}/>
+            <CountUp separator= ' ' duration={1} end={currentNumber}/>
             </Number>
             <SubText>
-            <CountUp separator= ',' duration={1} end={totalNumber}/> total
+            <CountUp separator= ' ' duration={1} end={totalNumber}/> total
 
             </SubText>
         </Cards>
@@ -28,7 +28,8 @@ export const Cards=styled.div`
     align-items: center;
     justify-content: space-evenly;
     flex-direction: column;
-    box-shadow: 0px 0px 11px 3px #9d9d9d;   
+    box-shadow: 0px 0px 11px 3px #9d9d9d;  
+    border-bottom:20px solid green ;
     border-radius: 10px;
     padding: 20px;
     margin:20px;
@@ -49,14 +50,14 @@ export const Text=styled.p`
 
 
 export const Number=styled.h1`
-    
+    text-align: center;
     
 
 `;
 
 
 export const SubText=styled.p`
-    
+    text-align: center;
     
 
 `;

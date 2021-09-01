@@ -21,7 +21,7 @@ const TopBar = () => {
     const [ctyCode, setCtyCode] = useState ("World Wide")
     const [image, setImage] = useState (`${global}`)
     const [countryLanguages, setCountryLanguages] = useState ([])
-    const [countryName, setCountryName] = useState ("")
+    const [weather, setWeather] = useState ([])
     const [iso3Code, setIso3Code] = useState("")
     const [cord, setCord] = useState({});
     let countryCode= ``;
@@ -67,6 +67,26 @@ useEffect (() => {
     }
     getCountryData()
 }, [iso3Code])
+
+
+useEffect (() => {
+    const getWeather = async () => {
+        const country_url = `http://api.openweathermap.org/data/2.5/weather?lat=${cord.lat}&lon=${cord.long}&appid=9593eca72eb8c1dbf309188937a446d7`
+            await fetch (country_url)
+            .then ((response) => {
+                return response.json()
+            })
+            .then ((data) => {
+                try {
+                  setWeather(data)
+                    
+                } catch (error) {
+                    
+                }
+            })
+    }
+    getWeather()
+}, [cord])
 
 
 
@@ -224,6 +244,8 @@ useEffect (() => {
         }
     }
 
+    console.log(weather)
+
 
 
     return (
@@ -255,10 +277,10 @@ useEffect (() => {
                                         
                                         <CountryHeading>Population</CountryHeading>        
                                             <Heading>
-                                                <CountUp separator= ',' duration={3} end={countryInfo.population}/> 
+                                                <CountUp separator= ' ' duration={3} end={countryInfo.population}/> 
                                             </Heading>
 
-                                
+                                    <Heading>{weather.name}</Heading>
                                         
                                         
 

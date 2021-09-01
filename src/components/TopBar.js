@@ -24,7 +24,7 @@ const TopBar = () => {
     const [countryName, setCountryName] = useState ("")
     const [iso3Code, setIso3Code] = useState("")
     const [cord, setCord] = useState({});
-    const [weather, setWeather] = useState({})
+    const [weather, setWeather] = useState([])
     const [temperature, setTemperature] = useState({})
     let countryCode= ``;
     let countryInfoDecider = false;
@@ -84,6 +84,7 @@ useEffect (() => {
                    setWeather(data.weather[0])
                    setTemperature(data.main)
                    
+                    // console.log(weather)
                     
                 } catch (error) {
                     
@@ -92,8 +93,8 @@ useEffect (() => {
     }
     getCountryData()
 }, [cord])
-console.log(weather)
-// console.log(temperature)
+console.log(weather.icon)
+console.log(temperature)
 
 
 //Loads initial world data

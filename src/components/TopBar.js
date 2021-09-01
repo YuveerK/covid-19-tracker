@@ -84,7 +84,6 @@ useEffect (() => {
                    setWeather(data.weather[0])
                    setTemperature(data.main)
                    
-                    // console.log(weather)
                     
                 } catch (error) {
                     
@@ -99,7 +98,7 @@ console.log(temperature)
 
 //Loads initial world data
     useEffect( ()=> {
-
+        
         async function fetchData() {
             //fetches initial global data
                 await fetch ("https://disease.sh/v3/covid-19/all")
@@ -282,6 +281,7 @@ console.log(temperature)
                                             </Heading>
 
                                         <CountryHeading>Weather</CountryHeading>
+                                        
                                         
                                         <WeatherContainer>
                                             <WeatherLeft>

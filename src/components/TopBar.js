@@ -70,31 +70,7 @@ useEffect (() => {
     getCountryData()
 }, [iso3Code])
 
-//Use effect that sends a request everytime the country changes in the drop down menu.
-//The iso3 code is cast as a variable into the link.
-useEffect (() => {
-    const getCountryData = async () => {
-        const country_url = `http://api.openweathermap.org/data/2.5/weather?lat=${cord.lat}&lon=${cord.long}&units=metric&appid=9593eca72eb8c1dbf309188937a446d7`
-            await fetch (country_url)
-            .then ((response) => {
-                return response.json()
-            })
-            .then ((data) => {
-                try {
-                   setWeather(data.weather[0])
-                   setTemperature(data.main)
-                   
-                    // console.log(weather)
-                    
-                } catch (error) {
-                    
-                }
-            })
-    }
-    getCountryData()
-}, [cord])
-console.log(weather.icon)
-console.log(temperature)
+
 
 
 //Loads initial world data
@@ -249,6 +225,33 @@ console.log(temperature)
             setVaccineNum({})
         }
     }
+
+
+    //Use effect that sends a request everytime the country changes in the drop down menu.
+//The iso3 code is cast as a variable into the link.
+useEffect (() => {
+    const getCountryData = async () => {
+        const country_url = `http://api.openweathermap.org/data/2.5/weather?lat=${cord.lat}&lon=${cord.long}&units=metric&appid=9593eca72eb8c1dbf309188937a446d7`
+            await fetch (country_url)
+            .then ((response) => {
+                return response.json()
+            })
+            .then ((data) => {
+                try {
+                   setWeather(data.weather[0])
+                   setTemperature(data.main)
+                   
+                    // console.log(weather)
+                    
+                } catch (error) {
+                    
+                }
+            })
+    }
+    getCountryData()
+}, [cord])
+console.log(weather.icon)
+console.log(temperature)
     return (
         <Container>
              

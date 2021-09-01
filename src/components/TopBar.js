@@ -282,7 +282,22 @@ console.log(weather)
 
                                         <CountryHeading>Weather</CountryHeading>
                                         
-                                   
+                                        
+                                        <WeatherContainer>
+                                            <WeatherLeft>
+                                                <ImageCountry src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`} />
+                                            </WeatherLeft>
+
+                                            <WeatherRight>
+                                                <Heading>
+                                                    {weather.description}
+                                                </Heading>
+                                                <Heading>
+                                                    {`${Math.round(temperature.temp, 1)} °C`}
+                                                </Heading>
+                                                
+                                            </WeatherRight>
+                                        </WeatherContainer>
 
 
                                     
@@ -439,25 +454,6 @@ console.log(weather)
                             </TableContentContainer>
 
                         </TableContainer>
-
-
-
-                             
-                        <WeatherContainer>
-                                            <WeatherLeft>
-                                                <ImageCountry src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`} />
-                                            </WeatherLeft>
-
-                                            <WeatherRight>
-                                                <Heading>
-                                                    {weather.description}
-                                                </Heading>
-                                                <Heading>
-                                                    {`${Math.round(temperature.temp, 1)} °C`}
-                                                </Heading>
-                                                
-                                            </WeatherRight>
-                                        </WeatherContainer>
                     </Right>
                     
                     {/* <Map data={tableData}/> */}

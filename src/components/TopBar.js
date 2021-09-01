@@ -589,7 +589,7 @@ export const Li=styled.li`
     padding-left: 20px;
 `;
 export const HeadingContentContainer=styled.div`
-    width: 800px;
+    width: 500px;
     height: fit-content;
     display: flex;
     align-items: center;

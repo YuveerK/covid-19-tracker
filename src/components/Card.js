@@ -33,7 +33,7 @@ export const Cards=styled.div`
     border-radius: 10px;
     padding: 20px;
     margin:20px;
-    
+    transition: 2s ease-in;
 
 `;
 
@@ -51,6 +51,7 @@ export const Text=styled.p`
 
 export const Number=styled.h1`
     text-align: center;
+    font-size: 1.5rem;
     
 
 `;

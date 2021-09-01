@@ -22,6 +22,9 @@ const TopBar = () => {
     const [image, setImage] = useState (`${global}`)
     const [countryLanguages, setCountryLanguages] = useState ([])
     const [weather, setWeather] = useState ([])
+    const [temperature, setTemperature] = useState ([])
+    const [weatherDescription, setWeatherDescription] = useState ([])
+    const [weatherInformation, setWeatherInformation] = useState ([])
     const [iso3Code, setIso3Code] = useState("")
     const [cord, setCord] = useState({});
     let countryCode= ``;
@@ -71,7 +74,7 @@ useEffect (() => {
 
 useEffect (() => {
     const getWeather = async () => {
-        const country_url = `https://api.openweathermap.org/data/2.5/weather?lat=${cord.lat}&lon=${cord.long}&appid=9593eca72eb8c1dbf309188937a446d7`
+        const country_url = `https://api.openweathermap.org/data/2.5/weather?lat=${cord.lat}&lon=${cord.long}&units=metric&appid=9593eca72eb8c1dbf309188937a446d7`
             await fetch (country_url)
             .then ((response) => {
                 return response.json()
@@ -79,9 +82,13 @@ useEffect (() => {
             .then ((data) => {
                 try {
                   setWeather(data)
+                  setTemperature(data.main)
+                  setWeatherDescription(data.weather[0])
                     
                 } catch (error) {
-                    
+                    setWeather([])
+                    setTemperature([])
+                    setWeatherDescription([])
                 }
             })
     }
@@ -176,6 +183,8 @@ useEffect (() => {
             setCtyCode("World Wide")
             setCountryLanguages([])
             setCountryDetailedInfo ([])
+            setWeather([])
+            setTemperature({})
             await fetch ("https://disease.sh/v3/covid-19/all")
                 .then ((response) => response.json())
                 .then ((data) => {
@@ -243,6 +252,8 @@ useEffect (() => {
             setVaccineNum({})
         }
     }
+    
+
 
     console.log(weather)
 
@@ -280,7 +291,22 @@ useEffect (() => {
                                                 <CountUp separator= ' ' duration={3} end={countryInfo.population}/> 
                                             </Heading>
 
-                                    <Heading>{weather.name}</Heading>
+                                            { Object.keys(weather).length > 0 &&
+                                        <WeatherContainer>                                                                                        
+                                            {weatherDescription &&
+                                            <WeatherImageContainer>
+                                                <WeatherImageIcon src={`https://openweathermap.org/img/wn/${weatherDescription.icon}@2x.png`} />
+                                            </WeatherImageContainer>
+                                            }
+                                            {weatherDescription &&
+                                            <Heading>{`${weatherDescription.description}`} </Heading>
+                                            }
+
+                                            {temperature &&
+                                                <Heading>{`${temperature.temp}`} °C</Heading>
+                                            }
+                                        </WeatherContainer>
+}
                                         
                                         
 
@@ -449,6 +475,31 @@ useEffect (() => {
     )
 }
 
+export const WeatherImageContainer=styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:80px;
+    height:fit-content;    
+
+`;
+export const WeatherImageIcon=styled.img`
+    
+
+`;
+export const WeatherContainer=styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0px 0px 11px 3px #9d9d9d;  
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 10px;
+
+`;
+
 export const TableContentContainer=styled.div`
     width: 100%;
     overflow-y: scroll;
@@ -538,7 +589,7 @@ export const Li=styled.li`
     padding-left: 20px;
 `;
 export const HeadingContentContainer=styled.div`
-    width: 500px;
+    width: 800px;
     height: fit-content;
     display: flex;
     align-items: center;

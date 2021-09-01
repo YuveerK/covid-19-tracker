@@ -71,7 +71,7 @@ useEffect (() => {
 
 useEffect (() => {
     const getWeather = async () => {
-        const country_url = `http://api.openweathermap.org/data/2.5/weather?lat=${cord.lat}&lon=${cord.long}&appid=9593eca72eb8c1dbf309188937a446d7`
+        const country_url = `https://api.openweathermap.org/data/2.5/weather?lat=${cord.lat}&lon=${cord.long}&appid=9593eca72eb8c1dbf309188937a446d7`
             await fetch (country_url)
             .then ((response) => {
                 return response.json()

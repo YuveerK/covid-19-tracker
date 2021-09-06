@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import Numeral from 'react-numeral';
 import CountUp from 'react-countup';
 import React from 'react'
 
-const Card = ({ icon, heading, currentNumber, totalNumber, subHeading }) => {
+const Card = ({ icon, heading, currentNumber, totalNumber, subHeading, color, borderBottom}) => {
     return (
-        <Cards>
-            <Icon className={icon}></Icon>
+        <Cards borderBottom={borderBottom}>
+            <Icon className={icon} color={color}></Icon>
             <Text>
                 {heading}
             </Text>
@@ -17,6 +16,8 @@ const Card = ({ icon, heading, currentNumber, totalNumber, subHeading }) => {
             <CountUp separator= ' ' duration={1} end={totalNumber}/> total
 
             </SubText>
+
+            
         </Cards>
     )
 }
@@ -29,7 +30,7 @@ export const Cards=styled.div`
     justify-content: space-evenly;
     flex-direction: column;
     box-shadow: 0px 0px 11px 3px #9d9d9d;  
-    border-bottom:20px solid green ;
+    border-bottom:20px solid ${props => props.borderBottom} ;
     border-radius: 10px;
     padding: 20px;
     margin:20px;
@@ -39,7 +40,7 @@ export const Cards=styled.div`
 
 export const Icon=styled.i`
     font-size: 3rem;  
-    color:green;  
+    color:${props => props.color};  
 
 `;
 export const Text=styled.p`

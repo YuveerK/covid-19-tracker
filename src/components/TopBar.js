@@ -192,10 +192,11 @@ useEffect (() => {
                     setCountryInfo(data)
                 }); 
         } else {
-            const url= `https://disease.sh/v3/covid-19/countries/${countryCode}`
+            const url= `https://disease.sh/v3/covid-19/countries/${countryCode}?yesterday=true&strict=true`
             await fetch (url)
             .then((response) => response.json())
             .then(data => {
+                console.log(data)
                 setCountryInfo(data)
                 setImage(data.countryInfo.flag)
                 setIso3Code(data.countryInfo.iso3)
@@ -256,7 +257,6 @@ useEffect (() => {
     
     
 
-    console.log(weather)
 
 
 
@@ -410,7 +410,9 @@ useEffect (() => {
                                     icon="fas fa-vials"
                                     heading="Tests Conducted - As of Today"
                                     currentNumber = {countryInfo.tests}
-                                    subHeading="total" 
+                                    subHeading="total"
+                                    color="darkgrey" 
+                                    borderBottom="darkgrey"    
                                 />
                                 
                                 <Cards 
@@ -418,16 +420,19 @@ useEffect (() => {
                                     heading="COVID-19 Cases - As Of Today"
                                     currentNumber = {countryInfo.todayCases ? countryInfo.todayCases : "0" } 
                                     totalNumber ={countryInfo.cases}
-                                    subHeading="total"                                
+                                    subHeading="total"   
+                                    color="orange" 
+                                    borderBottom="orange"                                
                                 />
                                 
                                 <Cards 
                                     icon="fas fa-heartbeat"
                                     heading="COVID-19 Deaths - Today"
-                                    
                                     currentNumber = {countryInfo.todayDeaths ? countryInfo.todayDeaths : "0"}
                                     totalNumber ={countryInfo.deaths}
-                                    subHeading="total"                               
+                                    subHeading="total"
+                                    color="red" 
+                                    borderBottom="red"                                
                                 />        
                                 
                                 <Cards 
@@ -435,14 +440,18 @@ useEffect (() => {
                                     heading="COVID-19 Recovered Cases - Today"
                                     currentNumber = {countryInfo.todayRecovered ? countryInfo.todayRecovered : "0"}
                                     totalNumber ={countryInfo.recovered}
-                                    subHeading="total"                               
+                                    subHeading="total"     
+                                    color="green" 
+                                    borderBottom="green"                         
                                 />        
                                 
                                 <Cards 
                                     icon="fas fa-syringe"
                                     heading="Vaccines Administered"
                                     currentNumber = {vaccineNum} 
-                                    subHeading="total"                              
+                                    subHeading="total"  
+                                    color="#03f4fc"   
+                                    borderBottom="#03f4fc"                         
                                 />        
                             </CardContentContainer>
                                                

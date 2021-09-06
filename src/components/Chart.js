@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {  Line, Bar } from 'react-chartjs-2'
+import {  Line } from 'react-chartjs-2'
 import numeral from "numeral";
 import { ErrorMessage } from "./TopBar";
 const Chart = ({ data, errorMessage }) => {

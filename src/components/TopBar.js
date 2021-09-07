@@ -1,14 +1,16 @@
 import styled from "styled-components";
 import logo from "../assets/logo.svg";
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect,Component } from 'react'
 import Chart from "./Chart";
 import Table from "../components/Table"
 import Cards, { Icon } from "./Card"
 import global from "../assets/globe.png"
 import CountUp from "react-countup";
-import DataTable from 'react-data-table-component';
-import Map from "./Map";
-import pic from "../assets/countrybg.jpg"
+import Clock from 'react-live-clock';
+import ReactDOM from 'react-dom';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+
 
 
 
@@ -192,7 +194,7 @@ useEffect (() => {
                     setCountryInfo(data)
                 }); 
         } else {
-            const url= `https://disease.sh/v3/covid-19/countries/${countryCode}?yesterday=true&strict=true`
+            const url= `https://disease.sh/v3/covid-19/countries/${countryCode}?yesterday=false&strict=true`
             await fetch (url)
             .then((response) => response.json())
             .then(data => {
@@ -262,12 +264,14 @@ useEffect (() => {
 
     return (
         <Container>
-             
+            
             <TitleContainer>
                         <Image src={logo} />
                     <Title>
                         
                         COVID-19 Tracker
+                        <Clock format={'HH:mm:ss'} ticking={true} timezone={'Africa/Abidjan'} />
+
                     </Title>
 
                     <Select onChange={onCountryChange}>
@@ -314,6 +318,7 @@ useEffect (() => {
 
                                     
                                     {countryDetailedInfo.length> 0 &&
+                                    
                                     <CountryInfoContainer>
                                             <LeftCountryInfo>
                                             {countryDetailedInfo.length > 0 && <CountryHeading>Native Name</CountryHeading>}        
@@ -554,7 +559,7 @@ export const HeadingContainer=styled.div`
 
 export const CountryInfoContainer=styled.div`
       width: 100%;
-      height: 200px;
+      height: 400px;
       display: flex;
       justify-content: space-between;
       margin-top: 20px;

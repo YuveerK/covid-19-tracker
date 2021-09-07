@@ -4,15 +4,17 @@ import numeral from "numeral";
 import { ErrorMessage } from "./TopBar";
 const Chart = ({ data, errorMessage }) => {
  
+  let randomColor = Math.floor(Math.random()*16777215).toString(16);
+
     const state = {
         
         datasets: [
           {
             label: 'Daily New: Covid-19 Cases',
-            fill: false,
+            fill: true,
             lineTension: 0.4,
-            backgroundColor: 'darkgreen',
-            borderColor: 'red',
+            backgroundColor: `#${randomColor}`,
+            borderColor: `#${randomColor}`,
             borderWidth: 1,
             data: data
           }

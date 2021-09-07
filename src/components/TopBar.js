@@ -270,7 +270,7 @@ useEffect (() => {
                     <Title>
                         
                         COVID-19 Tracker
-                        <Clock format={'HH:mm:ss'} ticking={true} timezone={'Africa/Abidjan'} />
+                       
 
                     </Title>
 
